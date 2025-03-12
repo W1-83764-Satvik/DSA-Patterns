@@ -1,0 +1,38 @@
+// Problem: Find the minimum size of a subarray whose sum is greater than a given value S using Sliding Window.
+//  Time Complexity: O(N) - Because we have only one loop that runs N times, and each variable is accessed once.
+//  Space Complexity: O(1) - Since we are not using any additional data structures.
+
+public class SlidingWindowProblems {
+    // Function to find the minimum size of a subarray with sum greater than S
+    static int minimumSizeSubarraySum(int[] arr, int s) {
+        if (arr.length == 0) return -1; // Edge case: Empty array
+
+        int left = 0, right = 0, sum = 0, minSize = Integer.MAX_VALUE;
+
+        while (right < arr.length) {
+            sum += arr[right]; // Expand the window by adding right element
+
+            while (sum >= s) { // When sum exceeds S, shrink window from left
+            minSize = Math.min(minSize, right - left + 1); // Update min size if sum >= s
+                sum -= arr[left];
+                left++;
+            }
+            
+            right++; // Expand window from the right
+        }
+        
+        return (minSize != Integer.MAX_VALUE) ? minSize : 0; // Return the minimum size or 0 if no valid subarray is found
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {2, 3, 1, 2, 4, 3};
+        int s1 = 7;
+        System.out.println("Minimum Size Subarray Sum greater than " + s1 + " is: " + minimumSizeSubarraySum(arr1, s1));
+        
+        // Additional test case
+        int[] arr2 = {1, 4, 4};
+        int s2 = 8;
+        System.out.println("Minimum Size Subarray Sum greater than " + s2 + " is: " + minimumSizeSubarraySum(arr2, s2));
+    }
+}
