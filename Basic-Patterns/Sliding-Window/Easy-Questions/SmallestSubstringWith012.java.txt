@@ -1,0 +1,27 @@
+ // Problem: Find the smallest Substring With 012 using Sliding Window.
+//  Time Complexity: O(N) : We use two pointers: right expands the window, and left shrinks it.
+//  The right pointer iterates once over the entire array (N elements).
+//  The left pointer also moves at most once per element (when shrinking the window).
+    static int smallestSubstringWith012(String str) {
+        if (str == null) {
+            return -1;
+        }
+
+        int left = 0, right = 0, minLength = Integer.MAX_VALUE;
+        int[] freq = new int[3]; // Frequency array for 0, 1, and 2
+
+        while (right < str.length()) { // Expand the window with right pointer
+            char rightChar = str.charAt(right);
+            freq[rightChar - '0']++; // Update frequency of the current character
+
+            // When window contains at least one of each: '0', '1', and '2'
+            while (freq[0] > 0 && freq[1] > 0 && freq[2] > 0) {
+                minLength = Math.min(minLength, right - left + 1); // Update minimum length if needed
+                char leftChar = str.charAt(left);
+                freq[leftChar - '0']--; // Shrink the window from the left
+                left++;
+            }
+            right++; // Expand the window further
+        }
+        return (minLength == Integer.MAX_VALUE) ? -1 : minLength;
+    }
