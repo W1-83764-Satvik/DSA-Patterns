@@ -1,0 +1,41 @@
+// Problem: Find the length of the longest substring without repeating characters using Sliding Window.
+//  Time Complexity: O(N) - Because we have only one loop that runs N times, and each variable is accessed once.
+//  Space Complexity: O(N) - Because we are using an additional data structure (HashMap) to store character frequencies.
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SlidingWindowProblems {
+    // Function to find the longest substring without repeating characters
+    static int longestSubstringWithoutRepeatingCharacters(String str) {
+        if (str.equals("")) return -1; // Edge case: Empty string
+        
+        Map<Character, Integer> frequency = new HashMap<>(); // HashMap to keep track of character frequency
+        int left = 0, right = 0, maxLength = 0;
+        
+        while (right < str.length()) {
+            char rightChar = str.charAt(right);
+            frequency.put(rightChar, frequency.getOrDefault(rightChar, 0) + 1); // Storing each character's frequency
+            
+            while (frequency.get(rightChar) > 1) { // If any character's frequency is > 1, it means the character is a duplicate
+                char leftChar = str.charAt(left);
+                frequency.put(leftChar, frequency.getOrDefault(leftChar, 1) - 1); // Reduce frequency of left character
+                left++; // Shrink the window from the left
+            }
+            
+            maxLength = Math.max(maxLength, right - left + 1); // Update max length if all characters are unique
+            right++; // Expand the window from the right
+        }
+        return maxLength; // Return the maximum length of a substring without repeating characters
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        String str1 = "abcabcbb";
+        System.out.println("Longest Substring Without Repeating Characters in '" + str1 + "' is: " + longestSubstringWithoutRepeatingCharacters(str1));
+        
+        // Additional test case
+        String str2 = "bbbbb";
+        System.out.println("Longest Substring Without Repeating Characters in '" + str2 + "' is: " + longestSubstringWithoutRepeatingCharacters(str2));
+    }
+}

@@ -1,0 +1,55 @@
+// Problem: Find the longest substring that contains at most K distinct characters using Sliding Window.
+//  Time Complexity: O(N) - Because we have only one loop that runs N times, and each variable is accessed once.
+//  Space Complexity: O(N) - Since we are using an additional data structure (HashMap) to track character frequencies.
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class SlidingWindowProblems {
+    // Function to find the longest substring with at most K distinct characters
+    static int longestSubstringWith_K_DistinctChars(String str, int k) {
+        if (str.isEmpty() || k == 0) return 0; // Edge case: Empty string or k=0 means no valid substring
+
+        Map<Character, Integer> frequency = new HashMap<>(); // HashMap to track frequency of characters
+        int left = 0, right = 0, checkDistinct = 0, maxLength = 0;
+
+        while (right < str.length()) {
+            char r = str.charAt(right);
+            frequency.put(r, frequency.getOrDefault(r, 0) + 1); // Increase frequency of each character
+
+            if (frequency.get(r) == 1) { // If the character appears for the first time, increase unique count
+                checkDistinct++;
+            }
+
+            // If there are more than K distinct characters, shrink the window from the left
+            while (checkDistinct > k) {
+                char l = str.charAt(left);
+                frequency.put(l, frequency.get(l) - 1); // Reduce frequency of left character
+                
+                if (frequency.get(l) == 0) { // If character count is 0, remove from map and reduce distinct count
+                    checkDistinct--;
+                    frequency.remove(l);
+                }
+                left++; // Move left pointer forward
+            }
+
+            maxLength = Math.max(maxLength, right - left + 1); // Track max length while distinct count <= k
+            right++; // Expand window from the right
+        }
+        return maxLength; // Return the maximum length found
+    }
+
+    // Main method 
+    public static void main(String[] args) {
+        String str1 = "araaci";
+        int k1 = 2;
+        System.out.println("Longest Substring with " + k1 + " distinct characters in '" + str1 + "' is: " 
+                            + longestSubstringWith_K_DistinctChars(str1, k1));
+
+        // Additional test case
+        String str2 = "cbbebi";
+        int k2 = 3;
+        System.out.println("Longest Substring with " + k2 + " distinct characters in '" + str2 + "' is: " 
+                            + longestSubstringWith_K_DistinctChars(str2, k2));
+    }
+}
