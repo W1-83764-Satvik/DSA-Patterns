@@ -1,0 +1,42 @@
+Basic:
+- Two Pointers
+- Sliding Window
+- Fast & Slow Pointers
+- Merge Intervals
+- Cyclic Sort
+- In-place Reversal of Linked List
+- Binary Search
+- Kadane’s Algorithm
+- Hashing (HashMap/HashSet techniques)
+- Mathematical Algorithms (GCD, Prime numbers, etc.)
+- Sorting Algorithms (QuickSort, MergeSort, Counting Sort, etc.)
+- Stack-based Problems (Monotonic Stack, Next Greater Element)
+- Queue-based Problems (Deque, Circular Queue, etc.)
+
+Intermediate:
+- Depth First Search (DFS)
+- Breadth First Search (BFS)
+- Backtracking
+- Greedy Algorithms
+- Divide and Conquer
+- Topological Sort
+- Tree Traversals
+- Graph Traversals
+- Trie (Prefix Tree)
+- Union Find (Disjoint Set)
+- Bit Manipulation
+- Heap/Priority Queue (Min-Heap, Max-Heap, Top-K problems)
+- Meet in the Middle
+- Matrix Traversals and Operations
+- String Matching Algorithms (KMP, Rabin-Karp)
+
+Advanced:
+- Dynamic Programming
+- Advanced Graph Algorithms (e.g., Dijkstra’s, Bellman-Ford, Floyd-Warshall)
+- Segment Trees
+- Binary Indexed Trees (Fenwick Tree)
+- Suffix Trees / Suffix Arrays
+- Heavy-Light Decomposition (HLD for Tree queries)
+- Mo’s Algorithm (Efficient range queries)
+- Euler Tour Technique (Tree flattening for efficient queries)
+- Convex Hull (Computational Geometry)

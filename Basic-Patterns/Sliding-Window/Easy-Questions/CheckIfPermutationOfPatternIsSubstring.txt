@@ -1,0 +1,66 @@
+import java.util.Arrays;
+
+public class PermutationSubstringChecker {
+
+    /**
+     * Checks if any permutation (anagram) of the pattern exists as a substring in the given string.
+     * 
+     * Important things to remember:
+     * 1. For permutation/anagram problems, the required window is always fixed and equals the length of the pattern.
+     * 2. Precompute the frequency count for the pattern and compare it with the frequency of the current window.
+     * 3. Use a sliding window approach: update the window frequency array as you slide through the string.
+     * 4. Always handle edge cases (e.g., when the pattern's length is greater than the string's length).
+     *
+     * Time Complexity:
+     * - O(N) where N is the length of the string, because we iterate over each character once.
+     * - The frequency array comparison is O(1) since it has a fixed size (26).
+     *
+     * Space Complexity:
+     * - O(1) since we use two fixed-size arrays of length 26, regardless of the input size.
+     *
+     */
+    static boolean checkIfPermutationOfPatternIsSubstring(String str, String per) {
+        // Edge case: if the pattern is longer than the string, no valid permutation exists.
+        if (per.length() > str.length()) {
+            return false;
+        }
+
+        int[] patternFreq = new int[26]; // Frequency array for pattern characters
+        int[] windowFreq = new int[26];  // Frequency array for current window characters in str
+        int left = 0, right = 0;
+        int windowSize = per.length();
+
+        // Build frequency array for the pattern
+        for (char c : per.toCharArray()) {
+            patternFreq[c - 'a']++;
+        }
+
+        // Slide the window over the string
+        while (right < str.length()) {
+            // Add the current character to the window frequency
+            char rightChar = str.charAt(right);
+            windowFreq[rightChar - 'a']++;
+
+            // Once the window size matches the pattern length, check for a valid permutation
+            if (right - left + 1 == windowSize) {
+                // Compare current window frequency with the pattern frequency
+                if (Arrays.equals(patternFreq, windowFreq)) {
+                    return true;
+                }
+                // Remove the leftmost character from the window as we slide forward
+                char leftChar = str.charAt(left);
+                windowFreq[leftChar - 'a']--;
+                left++;
+            }
+            right++;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        String str = "oidbcaf";
+        String per = "abc";
+        System.out.println("Does any permutation of the pattern exist as a substring? " 
+                           + checkIfPermutationOfPatternIsSubstring(str, per));
+    }
+}

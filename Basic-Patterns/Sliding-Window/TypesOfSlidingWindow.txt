@@ -1,0 +1,82 @@
+1️. Fixed-Size Sliding Window :  The window size remains constant throughout the traversal. 
+
+Use Case: When you need to compute something over a fixed-size subarray or substring.
+
+How It Works:
+    Initialize the window with the first k elements.
+    Move the window forward one element at a time.
+    Add the new element and remove the old element to update the result.
+
+Example Problems:
+   Find the maximum sum of a subarray of size k.
+   Find the average of each subarray of size k.
+
+
+2️. Variable-Size Sliding Window : The window size expands and shrinks dynamically based on conditions.
+
+Use Case: When you need to find the smallest or largest subarray that satisfies a condition.
+
+How It Works:
+   Start with an empty window and expand it by adding elements until the condition is met.
+   Once met, try to shrink the window from the left while maintaining the condition.
+   Track the smallest or largest valid window size.
+
+Example Problems:
+   Find the smallest subarray with a sum ≥ S.
+   Find the longest substring with at most K distinct characters.
+
+
+3️. Sliding Window with Two Pointers : Uses two pointers (left and right) to represent the window boundaries.
+
+Use Case: When the problem involves finding subarrays or substrings with certain conditions.
+
+How It Works:
+   Start both pointers at the beginning.
+   Expand the right pointer to add new elements.
+   If the condition is violated, move the left pointer forward to restore validity.
+
+Example Problems:
+   Find the longest substring without repeating characters.
+   Find the longest subarray with at most K different numbers.
+
+
+4️. Sliding Window with Frequency Count (HashMap/Array) : The window maintains a frequency count of elements inside it.
+
+Use Case: When checking if two substrings have the same character composition.
+
+How It Works:
+   Maintain a frequency count of the target string.
+   Slide the window over the second string while updating character frequencies.
+   Compare the frequency counts to determine if they match.
+
+Example Problems:
+   Find anagrams of a string inside another string.
+   Check if one string is a permutation of another within a larger string.
+
+
+5️. Sliding Window with Deque (Monotonic Queue) : Uses a deque (double-ended queue) to store window elements efficiently.
+
+Use Case: When the problem requires tracking maximum or minimum values in a window.
+
+How It Works:
+   Maintain a deque to store useful elements (e.g., max values).
+   Slide the window and update the deque by removing unnecessary elements.
+   The front of the deque always contains the maximum or minimum element.
+
+Example Problems:
+   Find the maximum value in every sliding window of size k.
+   Find the minimum value in every sliding window of size k.
+ 
+
+6️. Sliding Window with Binary Search (Optimized Approach) : Uses binary search within a sliding window to optimize finding the smallest or largest subarray.
+
+Use Case: When a sorted structure is involved, and we need to search efficiently.
+
+How It Works:
+    Use binary search to find the right position inside the window.
+    Adjust the window size dynamically to satisfy conditions.
+   Use lower_bound or upper_bound techniques for faster searching.
+
+Example Problems:
+   Find the smallest subarray sum greater than a given value.
+   Find the maximum sum of a subarray within given constraints.
