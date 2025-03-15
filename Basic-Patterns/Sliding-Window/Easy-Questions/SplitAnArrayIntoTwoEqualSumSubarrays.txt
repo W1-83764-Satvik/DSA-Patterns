@@ -51,3 +51,24 @@ public class EqualSumSubarrays {
         System.out.println("Result 3: " + splitAnArrayIntoTwoEqualSumSubarrays(arr3));
     }
 }
+
+/*
+Key Takeaways for Similar Problems:
+
+1. Always check the total sum of the array before attempting a partition.
+   - If the sum is odd, it is impossible to split the array into two equal sum subarrays.
+
+2. Use a prefix sum approach to track the sum while iterating.
+   - Maintain a running sum and stop once half of the total sum is reached.
+
+3. Handle edge cases properly.
+   - If the array has fewer than two elements, splitting is not possible.
+   - If no valid partition is found, return an empty list instead of an incorrect result.
+
+4. Avoid unnecessary computations.
+   - If at any point the running sum exceeds half of the total sum, stop further calculations.
+
+5. Alternative approaches for related problems.
+   - If finding any two subarrays with the same sum (not necessarily consecutive), a HashMap-based approach may be useful.
+   - For larger constraints, using binary search on prefix sums might be more efficient.
+*/
