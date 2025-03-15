@@ -1,0 +1,67 @@
+// Problem: Find the longest substring without repeating characters using Sliding Window.
+//  Time Complexity: O(N) - We iterate through the string once while adjusting the window.
+//  Space Complexity: O(1) - We use a fixed-size frequency array of size 26 (constant space).
+
+public class SlidingWindowProblems {
+    // Function to find the longest substring without repeating characters
+    static int longestSubstringWithoutRepeatingCharacters(String str) {
+        if (str.equals("")) return -1; // Return -1 for empty input
+
+        int left = 0, right = 0, maxLength = 0;
+        int[] frequency = new int[26]; // Frequency array for 26 lowercase letters
+
+        while (right < str.length()) {
+            char rightCharacter = str.charAt(right);
+            frequency[rightCharacter - 'a']++; // Include the new character in the window
+
+            // If the current character is repeated in the window,
+            // move the left pointer to reduce its frequency until it's no longer repeated.
+            while (frequency[rightCharacter - 'a'] > 1) {
+                char leftCharacter = str.charAt(left);
+                frequency[leftCharacter - 'a']--;
+                left++;
+            }
+
+            // Update the maximum window size found so far.
+            maxLength = Math.max(maxLength, right - left + 1);
+            right++;
+        }
+        return maxLength;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        String str1 = "abcabcbb";
+        System.out.println("Longest Substring Without Repeating Characters in '" + str1 + "' is: " 
+                            + longestSubstringWithoutRepeatingCharacters(str1)); // Expected: 3
+
+        String str2 = "bbbbb";
+        System.out.println("Longest Substring Without Repeating Characters in '" + str2 + "' is: " 
+                            + longestSubstringWithoutRepeatingCharacters(str2)); // Expected: 1
+
+        String str3 = "pwwkew";
+        System.out.println("Longest Substring Without Repeating Characters in '" + str3 + "' is: " 
+                            + longestSubstringWithoutRepeatingCharacters(str3)); // Expected: 3
+    }
+}
+
+/*
+ Key Takeaways for Similar Problems:
+
+1. **Sliding Window is the optimal approach**  
+   - Instead of checking all substrings (O(N²)), we adjust the window dynamically in **O(N)**.
+
+2. **Why use a frequency array instead of a HashMap?**  
+   - Since the input consists of only lowercase English letters, a fixed-size array `int[26]` is more space-efficient than a HashMap.
+
+3. **Shrinking the Window is Necessary**  
+   - If a character appears twice, move `left` forward to remove it from the window.
+
+4. **Edge Cases to Consider**  
+   - Empty string (`""`) → Return `-1`.  
+   - All unique characters (`"abcdef"`) → Return length of the string.  
+   - All same characters (`"aaaa"`) → Return `1`.
+
+5. **Alternative Approach for Larger Character Sets**  
+   - If input includes **uppercase letters, digits, or special characters**, use a **HashMap<Character, Integer>** instead of an `int[26]` array.
+*/
