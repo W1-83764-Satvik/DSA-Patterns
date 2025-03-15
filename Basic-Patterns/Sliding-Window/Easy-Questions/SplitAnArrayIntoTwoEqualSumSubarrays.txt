@@ -1,0 +1,53 @@
+// Problem: Split an array into two subarrays with equal sum using prefix sum approach.
+//  Time Complexity: O(N) - We iterate the array once to calculate the sum and once to find the partition.
+//  Space Complexity: O(N) - Since we store the subarrays in additional lists.
+
+import java.util.*;
+
+public class EqualSumSubarrays {
+    // Function to split an array into two equal sum subarrays
+    static List<List<Integer>> splitAnArrayIntoTwoEqualSumSubarrays(int[] arr) {
+        List<Integer> firstSubarray = new ArrayList<>();
+        List<Integer> secondSubarray = new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
+
+        // Edge case: Array must have at least 2 elements.
+        if (arr.length < 2) return result;
+
+        // Calculate total sum of the array
+        int totalSum = Arrays.stream(arr).sum();
+        
+        // If total sum is odd, an equal split is impossible.
+        if (totalSum % 2 != 0) return result;
+
+        int target = totalSum / 2, currentSum = 0;
+
+        // Traverse array to find the split point
+        for (int num : arr) {
+            currentSum += num;
+            firstSubarray.add(num);
+
+            if (currentSum == target) {
+                // Remaining elements form the second subarray
+                secondSubarray.addAll(Arrays.asList(Arrays.copyOfRange(arr, firstSubarray.size(), arr.length)));
+                result.add(firstSubarray);
+                result.add(secondSubarray);
+                return result;
+            } else if (currentSum > target) {
+                return result; // If sum exceeds target, split is not possible
+            }
+        }
+        return result; // Return empty list if no valid split is found
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {1, 2, 3, 4, 5, 5}; // Expected: {1,2,3,4} and {5,5}
+        int[] arr2 = {4, 1, 2, 3};       // Expected: {4,1} and {2,3}
+        int[] arr3 = {4, 3, 2, 1};       // Expected: Not Possible (Empty List)
+
+        System.out.println("Result 1: " + splitAnArrayIntoTwoEqualSumSubarrays(arr1));
+        System.out.println("Result 2: " + splitAnArrayIntoTwoEqualSumSubarrays(arr2));
+        System.out.println("Result 3: " + splitAnArrayIntoTwoEqualSumSubarrays(arr3));
+    }
+}
