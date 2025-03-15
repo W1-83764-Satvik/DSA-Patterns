@@ -1,0 +1,56 @@
+// Problem: Find the maximum sum subarray having sum less than or equal to a given sum using Sliding Window.
+//  Time Complexity: O(N) - We iterate through the array once while adjusting the window.
+//  Space Complexity: O(1) - We use only a few integer variables without extra space.
+
+public class SlidingWindowProblems {
+    // Function to find the maximum sum subarray with sum ≤ given sum
+    static int findMaxSubarraySum(int[] arr, int sum) {
+        int left = 0, right = 0, currentSum = 0, maxSum = 0;
+
+        while (right < arr.length) {
+            currentSum += arr[right];
+
+            // If currentSum exceeds the target, shrink the window from the left
+            while (currentSum > sum) {
+                currentSum -= arr[left];
+                left++;
+            }
+            // Update maxSum if the current window's sum is better and still within the target
+            maxSum = Math.max(maxSum, currentSum);
+            right++;
+        }
+        return maxSum;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {1, 2, 3, 4, 5};
+        int sum1 = 11;
+        System.out.println("Maximum Subarray Sum (≤ " + sum1 + ") is: " + findMaxSubarraySum(arr1, sum1)); // Expected: 10
+
+        int[] arr2 = {2, 4, 6, 8, 10};
+        int sum2 = 7;
+        System.out.println("Maximum Subarray Sum (≤ " + sum2 + ") is: " + findMaxSubarraySum(arr2, sum2)); // Expected: 6
+    }
+}
+
+/*
+ Key Takeaways for Similar Problems:
+
+1. **Sliding Window is efficient**  
+   - Instead of checking all subarrays (O(N²)), we adjust the window dynamically in **O(N)**.
+
+2. **Shrinking the Window is Necessary**  
+   - If `currentSum > sum`, remove elements from the left to maintain constraints.
+
+3. **Use a Variable to Track Maximum Sum**  
+   - Always compare `currentSum` with `maxSum` to store the best valid sum.
+
+4. **Edge Cases to Consider**  
+   - Single element arrays.  
+   - All elements being greater than `sum`.  
+   - The entire array being valid.  
+
+5. **Avoid Premature Returns**  
+   - Instead of returning immediately when `currentSum > sum`, shrink the window and continue checking.
+*/
