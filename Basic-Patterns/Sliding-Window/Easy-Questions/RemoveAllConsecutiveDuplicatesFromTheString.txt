@@ -1,0 +1,57 @@
+// Problem: Remove all consecutive duplicate characters from a string.
+//  Time Complexity: O(N) - We iterate through the string once.
+//  Space Complexity: O(N) - Using a StringBuilder to store the result.
+
+public class StringProblems {
+    // Function to remove all consecutive duplicate characters
+    static String removeAllConsecutiveDuplicatesFromTheString(String str) {
+        if (str == null || str.length() == 0) return str; // Edge case: Empty string
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append(str.charAt(0)); // Add first character
+        
+        int left = 0;
+        
+        for (int right = 1; right < str.length(); right++) {
+            if (str.charAt(left) != str.charAt(right)) {
+                sb.append(str.charAt(right)); // Append non-duplicate character
+                left = right; // Move left to the new character position
+            }
+        }
+        return sb.toString();
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        String str1 = "aabbccdde"; // Expected: "abcde"
+        String str2 = "aaabbbaaac"; // Expected: "abac"
+        String str3 = "aaaa"; // Expected: "a"
+        String str4 = ""; // Expected: ""
+
+        System.out.println("Result 1: " + removeAllConsecutiveDuplicatesFromTheString(str1));
+        System.out.println("Result 2: " + removeAllConsecutiveDuplicatesFromTheString(str2));
+        System.out.println("Result 3: " + removeAllConsecutiveDuplicatesFromTheString(str3));
+        System.out.println("Result 4: " + removeAllConsecutiveDuplicatesFromTheString(str4));
+    }
+}
+
+/*
+ Key Takeaways for Similar Problems:
+
+ 1. Use a StringBuilder for Efficiency  
+   - String is immutable in Java, meaning concatenation (`str += char`) creates a new object every time.  
+   - Instead, use `StringBuilder` for efficient string modification.  
+
+ 2. Be Careful with Pointer Movement  
+   - Don't move pointers blindly; only move when conditions are met.  
+   - In this case, `left` moves only when a new unique character is found.  
+
+ 3. Handle Edge Cases Properly  
+   - Empty String (`""`) → Return as is.  
+   - Single Character (`"a"`) → Return the same string.  
+   - All Characters the Same (`"aaaa"`) → Return `"a"`.  
+
+ 4. Understand the Difference Between Consecutive & Non-Consecutive Removal  
+   - Consecutive Removal (Like this problem) → `"aaabbbaacc" → "abac"`  
+   - Non-Consecutive Removal (If required in a different problem) → `"abcaacb" → "abc" (Remove all duplicates regardless of order)`
+*/
