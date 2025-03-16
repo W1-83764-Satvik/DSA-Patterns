@@ -1,0 +1,70 @@
+// Problem: Find the maximum number of fruits that can be collected in at most K baskets (distinct fruit types).
+//  Time Complexity: O(N) - We iterate through the array once while adjusting the window.
+//  Space Complexity: O(K) - Since we use a HashMap to store at most K distinct fruit types.
+
+import java.util.*;
+
+public class SlidingWindowProblems {
+    // Function to find the maximum number of fruits that can be collected in at most K baskets
+    static int maximumNumberOfFruitsInBasket(int[] arr, int k) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        int left = 0, maxFruits = 0, distinctCount = 0;
+
+        for (int right = 0; right < arr.length; right++) {
+            int fruit = arr[right];
+            freq.put(fruit, freq.getOrDefault(fruit, 0) + 1);
+            if (freq.get(fruit) == 1) {
+                distinctCount++;
+            }
+
+            // If the number of distinct fruits exceeds k, shrink the window
+            while (distinctCount > k) {
+                int leftFruit = arr[left];
+                freq.put(leftFruit, freq.get(leftFruit) - 1);
+                if (freq.get(leftFruit) == 0) {
+                    distinctCount--;
+                    freq.remove(leftFruit); // Remove from map to maintain size efficiency
+                }
+                left++;
+            }
+
+            maxFruits = Math.max(maxFruits, right - left + 1);
+        }
+
+        return maxFruits;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {1, 2, 1, 2, 3}; 
+        int k1 = 2;
+        System.out.println("Max Fruits in " + k1 + " Baskets: " 
+                            + maximumNumberOfFruitsInBasket(arr1, k1)); // Expected: 4
+
+        int[] arr2 = {3, 3, 3, 1, 2, 1, 1, 2, 3, 3, 4}; 
+        int k2 = 2;
+        System.out.println("Max Fruits in " + k2 + " Baskets: " 
+                            + maximumNumberOfFruitsInBasket(arr2, k2)); // Expected: 5
+    }
+}
+
+/*
+ Key Takeaways for Similar Problems:
+
+1. **Sliding Window helps in maintaining valid subarrays efficiently**  
+   - Instead of checking all possible subarrays (O(N²)), we dynamically adjust the window in **O(N)**.
+
+2. **HashMap is used to track distinct fruit types**  
+   - The key represents the fruit type, and the value stores the count of that fruit in the current window.
+
+3. **Shrinking the Window When Constraint is Exceeded**  
+   - If `distinctCount > k`, remove elements from the left to ensure we have at most `k` distinct fruit types.
+
+4. **Edge Cases to Consider**  
+   - `k = 0` → Should return `0` since no fruit can be picked.  
+   - All fruits are the same → Should return the length of the array.  
+   - More unique fruits than `k` → Window should shrink properly.  
+
+5. **Alternative Approach for Large Inputs**  
+   - If `k` is very large (close to `N`), this problem reduces to simply finding the longest contiguous subarray.
+*/
