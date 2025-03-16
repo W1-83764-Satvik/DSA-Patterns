@@ -1,0 +1,83 @@
+// Problem: Count the number of substrings of length K that contain exactly K distinct characters using Sliding Window.
+//  Time Complexity: O(N) - We iterate through the string once while maintaining a fixed window.
+//  Space Complexity: O(1) - We use a frequency array of size 26 (constant space).
+
+public class SlidingWindowProblems {
+    // Function to count substrings of length K with exactly K distinct characters
+    static int countSubstrings(String str, int k) {
+        // If the input is null, empty, or k is invalid, return 0
+        if (str == null || str.length() < k || k <= 0) {
+            return 0;
+        }
+
+        int substringCount = 0;
+        int[] freq = new int[26];   // Frequency array for 26 lowercase letters
+        int distinctCount = 0;      // Count of distinct characters in the current window
+        int left = 0;               // Left pointer for the window
+
+        // Use a fixed-size sliding window of length K by iterating with the right pointer
+        for (int right = 0; right < str.length(); right++) {
+            char currentChar = str.charAt(right);
+            freq[currentChar - 'a']++; // Update the frequency for the current character
+
+            // If this is the first occurrence in the current window, increase distinctCount
+            if (freq[currentChar - 'a'] == 1) {
+                distinctCount++;
+            }
+
+            // When the window size equals K, evaluate it
+            if (right - left + 1 == k) {
+                // If exactly K distinct characters are present, count this window
+                if (distinctCount == k) {
+                    substringCount++;
+                }
+
+                // Slide the window forward: remove the leftmost character
+                char leftChar = str.charAt(left);
+                freq[leftChar - 'a']--;
+
+                // If the frequency drops to zero, that character is no longer in the window
+                if (freq[leftChar - 'a'] == 0) {
+                    distinctCount--;
+                }
+                left++;  // Move the window's start
+            }
+        }
+
+        return substringCount;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        String str1 = "pqpqs";
+        int k1 = 2;
+        System.out.println("Count of substrings with " + k1 + " distinct characters: " 
+                            + countSubstrings(str1, k1)); // Expected: 4
+
+        String str2 = "aabab";
+        int k2 = 3;
+        System.out.println("Count of substrings with " + k2 + " distinct characters: " 
+                            + countSubstrings(str2, k2)); // Expected: 0
+    }
+}
+
+/*
+ Key Takeaways for Similar Problems:
+
+1. **Fixed-size Sliding Window is the optimal approach**  
+   - Instead of checking all substrings (O(N²)), we efficiently maintain a window of length **K** in **O(N)**.
+
+2. **Why use a frequency array instead of a HashMap?**  
+   - Since the input contains only lowercase letters, an `int[26]` array is more space-efficient than a HashMap.
+
+3. **Handling the Sliding Window Properly**  
+   - When the window size reaches **K**, check for valid substrings and then **slide the window forward** by removing the leftmost character.
+
+4. **Edge Cases to Consider**  
+   - If `K > str.length()` → Return `0` (impossible to form substrings of length K).  
+   - If all characters in `str` are the same → Ensure proper window sliding.  
+   - If `K = 1` → Count all characters in the string individually.
+
+5. **Alternative Approach for Larger Character Sets**  
+   - If `str` contains **uppercase letters, digits, or special characters**, use a **HashMap<Character, Integer>** instead of an array.
+*/
