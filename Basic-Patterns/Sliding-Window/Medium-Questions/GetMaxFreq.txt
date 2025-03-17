@@ -1,0 +1,64 @@
+// Problem: Find the length of the longest substring where at most K character replacements are allowed.
+//  Time Complexity: O(N) - We iterate through the string once while maintaining a valid window.
+//  Space Complexity: O(1) - We use a frequency array of size 26 (constant space).
+
+public class SlidingWindowProblems {
+    // Function to find the longest substring with at most K character replacements
+    static int getMaxFreq(String str, int k) {
+        int[] freq = new int[26];  // Frequency array for uppercase letters
+        int left = 0, maxCount = 0, result = 0;
+
+        for (int right = 0; right < str.length(); right++) {
+            char r = str.charAt(right);
+            freq[r - 'A']++;  // Increment frequency for the current character
+            
+            // Update maxCount to be the maximum frequency in the current window
+            maxCount = Math.max(maxCount, freq[r - 'A']);
+
+            // If window size minus max frequency is greater than K, shrink the window
+            while ((right - left + 1) - maxCount > k) {
+                freq[str.charAt(left) - 'A']--; // Reduce left character's frequency
+                left++; // Move the left pointer forward
+            }
+
+            // Update result with the size of the current valid window
+            result = Math.max(result, right - left + 1);
+        }
+
+        return result;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        String str1 = "AABABBA";
+        int k1 = 1;
+        System.out.println("Max substring length with " + k1 + " replacements: " 
+                            + getMaxFreq(str1, k1)); // Expected: 4
+
+        String str2 = "ABAB";
+        int k2 = 2;
+        System.out.println("Max substring length with " + k2 + " replacements: " 
+                            + getMaxFreq(str2, k2)); // Expected: 4
+    }
+}
+
+/*
+ Key Takeaways for Similar Problems:
+
+1. **Understanding the Sliding Window Condition**  
+   - The condition `(right - left + 1) - maxCount > k` ensures we keep at most `k` replacements allowed.
+
+2. **Why Track `maxCount`?**  
+   - `maxCount` stores the **highest frequency character in the window**.  
+   - The remaining characters (i.e., `window size - maxCount`) must be replaceable within the limit `k`.
+
+3. **Shrinking the Window When Needed**  
+   - If `(window size - maxCount) > k`, we **remove leftmost character** and shrink the window.
+
+4. **Edge Cases to Consider**    
+   - If the entire string contains the same character, it should return `str.length()`.  
+   - If `k` is large, it should return the full string length since all characters can be replaced.
+
+5. **Alternative Approach for Larger Character Sets**  
+   - If the input includes **lowercase letters, digits, or special characters**, use a **HashMap<Character, Integer>** instead of an array.
+*/
