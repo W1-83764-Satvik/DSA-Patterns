@@ -1,0 +1,70 @@
+// Problem: Count the number of subarrays with a sum equal to K in a binary array using Prefix Sum + HashMap.
+//  Time Complexity: O(N) - We iterate through the array once while maintaining a HashMap.
+//  Space Complexity: O(N) - We use a HashMap to store prefix sums.
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class PrefixSumProblems {
+    // Function to count subarrays with sum equal to K
+    static int countOfSubarraysWithSumEqualsK(int[] arr, int k) {
+        // HashMap to store the frequency of each prefix sum.
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        int count = 0;       // This will store the final count of subarrays with sum == k.
+        int prefixSum = 0;   // Running sum of the array as we iterate.
+
+        // Initialize the map with a prefix sum of 0, which occurs once.
+        freq.put(0, 1);
+
+        // Loop over the array.
+        for (int right = 0; right < arr.length; right++) {
+            prefixSum += arr[right];  // Update the running sum.
+
+            // If there's a previous prefix sum equal to (prefixSum - k),
+            // then the subarray between that index and the current index sums to k.
+            if (freq.containsKey(prefixSum - k)) {
+                count += freq.get(prefixSum - k);
+            }
+
+            // Update the frequency of the current prefix sum.
+            freq.put(prefixSum, freq.getOrDefault(prefixSum, 0) + 1);
+        }
+
+        return count;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {1, 0, 1, 1, 0, 1};
+        int k1 = 2;
+        System.out.println("Count of subarrays with sum " + k1 + ": " 
+                            + countOfSubarraysWithSumEqualsK(arr1, k1)); // Expected: 6
+
+        int[] arr2 = {0, 0, 0, 0, 0};
+        int k2 = 0;
+        System.out.println("Count of subarrays with sum " + k2 + ": " 
+                            + countOfSubarraysWithSumEqualsK(arr2, k2)); // Expected: 15
+    }
+}
+
+/*
+   Key Takeaways for Similar Problems:
+
+1. **Prefix Sum + HashMap is optimal**  
+   - Instead of checking all subarrays (O(N²)), we efficiently use **Prefix Sum with HashMap** in **O(N)**.
+
+2. **Understanding `prefixSum - k` Logic**  
+   - If `prefixSum - k` exists in the map, it means there is a subarray ending at `right` that sums to `k`.
+
+3. **Why Initialize `freq.put(0, 1)`?**  
+   - This ensures we correctly count subarrays starting from index `0`.
+
+4. **Edge Cases to Consider**  
+   - If `k = 0`, the function correctly counts zero-sum subarrays.  
+   - If `arr` contains only zeros, it should return the correct number of subarrays.  
+   - If no valid subarrays exist, return `0`.
+
+5. **Alternative Approach for Large Constraints**  
+   - If values are not binary (0s and 1s) but large integers, the same **Prefix Sum + HashMap** approach still works efficiently.
+*/
