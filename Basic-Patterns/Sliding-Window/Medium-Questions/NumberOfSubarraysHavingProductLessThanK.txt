@@ -1,0 +1,64 @@
+// Problem: Find the count of subarrays where the product of all elements is less than K using Sliding Window.
+//  Time Complexity: O(N) - We traverse the array once, dynamically adjusting the window.
+//  Space Complexity: O(1) - Only a few variables are used for calculation.
+
+public class SlidingWindowProblems {
+    // Function to count the number of subarrays having product less than K
+    static int numberOfSubarraysHavingProductLessThanK(int[] arr, int k) {
+        // If k is 1 or less, return 0 (product of positive integers will always be ≥ 1)
+        if (k <= 1) return 0;
+
+        int left = 0, count = 0;
+        long product = 1; // Use long to prevent overflow for larger values
+
+        // Iterate over the array with the right pointer
+        for (int right = 0; right < arr.length; right++) {
+            product *= arr[right]; // Expand the window by multiplying with the new element
+
+            // If product exceeds or equals k, shrink the window from the left
+            while (product >= k && left <= right) {
+                product /= arr[left];
+                left++;
+            }
+
+            // All subarrays ending at 'right' starting from indices in [left, right] are valid
+            count += (right - left + 1);
+        }
+
+        return count;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {10, 5, 2, 6};
+        int k1 = 100;
+        System.out.println("Number of subarrays with product less than " + k1 + ": " 
+                            + numberOfSubarraysHavingProductLessThanK(arr1, k1)); // Expected: 8
+
+        int[] arr2 = {1, 2, 3};
+        int k2 = 0;
+        System.out.println("Number of subarrays with product less than " + k2 + ": " 
+                            + numberOfSubarraysHavingProductLessThanK(arr2, k2)); // Expected: 0
+    }
+}
+
+/*
+📌 Key Takeaways for Similar Problems:
+
+1. **Sliding Window is the correct approach**  
+   - The product is multiplied as the window expands and divided when the product exceeds or equals K.
+
+2. **Why count (right - left + 1)?**  
+   - All subarrays ending at index 'right' with starting indices between 'left' and 'right' are valid.
+
+3. **Handle special cases**  
+   - If `k <= 1`, return 0 immediately as no subarrays can have product less than 1.
+
+4. **Edge Cases**  
+   - Single-element subarrays smaller than `k` should be counted.  
+   - Very large values in the array require `long` datatype to avoid overflow.  
+   - Continuous zeros in the array reset the product and affect window boundaries.
+
+5. **Why not use prefix sum or hashmap here?**  
+   - This problem deals with products (multiplication), so the sliding window approach is ideal rather than prefix sums or hashing.
+*/
