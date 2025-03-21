@@ -1,0 +1,71 @@
+// Problem: Find the largest sum subarray with size at least K using a combination of sliding window and Kadane's logic.
+//  Time Complexity: O(N) - We traverse the array once after computing the first window sum.
+//  Space Complexity: O(1) - Only variables are used without extra data structures.
+
+public class SlidingWindowProblems {
+    // Function to find the largest sum subarray of size at least K
+    static int largestSumSubarrayOfSizeAtLeast_K(int[] arr, int k) {
+        int right = k, currSum = 0, windowSum = 0, maxSum = Integer.MIN_VALUE;
+
+        // Step 1: Find sum of the first k elements (fixed window)
+        for (int i = 0; i < k; i++) {
+            windowSum += arr[i];
+        }
+        currSum = windowSum;
+        maxSum = windowSum;
+
+        // Step 2: Extend window beyond size k (Kadane + restart logic)
+        while (right < arr.length) {
+            currSum += arr[right];  // Add new element to current sum (continue option)
+            windowSum += arr[right] - arr[right - k]; // Maintain sliding window sum of size k
+
+            // Choose between continuing the current sequence or restarting from the new window
+            currSum = Math.max(currSum, windowSum);
+
+            // Update global maximum sum
+            maxSum = Math.max(maxSum, currSum);
+
+            right++;
+        }
+
+        return maxSum;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {1, 2, 3, -10, 4, 5, 6, -2};
+        int k1 = 3;
+        System.out.println("Largest sum subarray with size at least " + k1 + ": " 
+                            + largestSumSubarrayOfSizeAtLeast_K(arr1, k1)); // Example output
+
+        int[] arr2 = {2, -1, 2, 3, 4, -5};
+        int k2 = 2;
+        System.out.println("Largest sum subarray with size at least " + k2 + ": " 
+                            + largestSumSubarrayOfSizeAtLeast_K(arr2, k2)); // Example output
+    }
+}
+
+/*
+ Key Formula & Logic:
+
+1. Start with a fixed window of size K (initial sum).
+2. Extend the window beyond size K using:
+   - `currSum += arr[right]` (continue option)
+   - Maintain `windowSum` for size K sliding window using:
+     `windowSum += arr[right] - arr[right - k]`
+3. At each step:
+   - `currSum = max(currSum, windowSum)` to choose between continuing or restarting from this K-sized window.
+   - `maxSum = max(maxSum, currSum)`
+
+* This uses a combination of sliding window and Kadane’s logic for subarrays of size at least K.
+
+ Key Takeaways:
+
+- The restart option comes from the K-sized window sum; it allows resetting the running sum if the older sequence becomes less optimal.
+- The `currSum` variable extends and continues the current subarray sum.
+- If the current subarray sum falls behind the window sum, restart from the window sum.
+- Handles both negative and positive integers gracefully.
+- Edge cases:
+   - All negative numbers will still return the maximum subarray sum of at least size K.
+   - If `k == arr.length`, this returns the sum of the entire array.
+*/
