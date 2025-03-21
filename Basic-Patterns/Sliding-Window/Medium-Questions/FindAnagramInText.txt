@@ -1,0 +1,83 @@
+// Problem: Pattern: Count Anagrams in Text
+// Find the number of substrings in the given text that are anagrams of the given pattern.
+//  Time Complexity: O(N * 26) - For each window, we compare two frequency arrays of size 26.
+//  Space Complexity: O(1) - Frequency arrays of fixed size 26 are used.
+
+import java.util.Arrays;
+
+public class SlidingWindowProblems {
+    // Function to count anagrams of 'pattern' present in 'text'
+    static int findAnagramInText(String text, String pattern) {
+        int[] textFreq = new int[26];
+        int[] patternFreq = new int[26];
+
+        // Initialize frequency of characters in the pattern
+        for (char c : pattern.toCharArray()) {
+            patternFreq[c - 'a']++;
+        }
+
+        int left = 0, right = 0, countSubString = 0;
+
+        // Sliding window over text with window size equal to pattern length
+        while (right < text.length()) {
+            char rightChar = text.charAt(right);
+            textFreq[rightChar - 'a']++;
+
+            // When window size matches pattern length, check for an anagram
+            if (right - left + 1 == pattern.length()) {
+                if (Arrays.equals(textFreq, patternFreq)) {
+                    countSubString++;
+                }
+
+                // Slide the window forward by removing the leftmost character
+                char leftChar = text.charAt(left);
+                textFreq[leftChar - 'a']--;
+                left++;
+            }
+            right++;
+        }
+        return countSubString;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        String text1 = "cbaebabacd";
+        String pattern1 = "abc";
+        System.out.println("Anagrams of '" + pattern1 + "' found in '" + text1 + "': "
+                            + findAnagramInText(text1, pattern1)); // Expected: 2
+
+        String text2 = "abab";
+        String pattern2 = "ab";
+        System.out.println("Anagrams of '" + pattern2 + "' found in '" + text2 + "': "
+                            + findAnagramInText(text2, pattern2)); // Expected: 3
+    }
+}
+
+/*
+ Key Takeaways and Formula for This Pattern (Count Anagrams in Text):
+
+* Use a fixed-size sliding window (window size = length of pattern).
+
+* Maintain two frequency arrays (or hash maps) of size 26:
+   - One for the pattern.
+   - One for the current window in the text.
+
+* For each window:
+   - Expand the window by adding the right character.
+   - When window size == pattern length, compare both frequency arrays.
+     - If they are equal, increment count.
+   - Slide the window by removing the leftmost character and shrinking from the left.
+
+* Formula:
+   - For each window of size `pattern.length()`:  
+     Compare frequency arrays: if equal ➡️ count++ ✅
+
+* Edge Cases:
+   - Pattern longer than text ➡️ Return 0.
+   - Empty text or empty pattern ➡️ Return 0.
+   - Overlapping anagrams are also counted.
+
+* Optimizations:
+   - Instead of comparing arrays using `Arrays.equals()` (O(26)), 
+     you can maintain a match count if desired, but array comparison is simple and efficient for short patterns.
+*/
