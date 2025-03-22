@@ -1,0 +1,60 @@
+// Problem: Check if there exists a subarray with a sum equal to 0 using prefix sum and a frequency map.
+//  Time Complexity: O(N) - We iterate through the array once.
+//  Space Complexity: O(N) - We use a HashMap to store prefix sums.
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class PrefixSumProblems {
+    // Function to check if a subarray with sum 0 exists
+    static boolean subarrayWith_0_Sum(int[] arr) {
+        int sum = 0;
+        Map<Integer, Integer> freq = new HashMap<>();
+
+        // Store prefix sum frequency, 0 sum prefix means subarray from start
+        freq.put(0, 1);
+
+        for (int right = 0; right < arr.length; right++) {
+            sum += arr[right];
+            freq.put(sum, freq.getOrDefault(sum, 0) + 1);
+
+            // If at any point prefix sum is zero, or sum repeats — subarray with 0 sum exists
+            if (sum == 0 || freq.get(sum) > 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {4, 2, -3, 1, 6};
+        System.out.println("Subarray with zero sum exists: " + subarrayWith_0_Sum(arr1)); // Expected: true
+
+        int[] arr2 = {1, 2, 3};
+        System.out.println("Subarray with zero sum exists: " + subarrayWith_0_Sum(arr2)); // Expected: false
+
+        int[] arr3 = {1, 2, -2, 4, -4};
+        System.out.println("Subarray with zero sum exists: " + subarrayWith_0_Sum(arr3)); // Expected: true
+    }
+}
+
+/*
+ Formula & Logic:
+- Use prefix sum to keep track of running sums.
+- If the prefix sum is zero at any index, or if any prefix sum is repeated,
+  then a subarray with zero sum exists between those indices.
+
+ Condition:
+- sum == 0 → subarray with zero sum found from start.
+- freq.get(sum) > 1 → repeating sum found; means subarray sum zero in between.
+
+ Key Takeaways:
+1. Use prefix sum to detect subarray sums in O(N).
+2. HashMap stores frequency of prefix sums seen so far.
+3. Repetition of a prefix sum indicates that the subarray sum in between is zero.
+4. Edge cases:
+   - Array contains 0 itself → return true.
+   - All positive or negative numbers might still form a zero-sum subarray with opposite values.
+5. This approach works efficiently for both positive and negative numbers.
+*/
