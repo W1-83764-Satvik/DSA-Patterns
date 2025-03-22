@@ -1,0 +1,74 @@
+// Problem: Count distinct elements in every window of size K using sliding window + frequency map.
+//  Time Complexity: O(N) - Each element is visited at most twice (once when added and once when removed).
+//  Space Complexity: O(K) - We store frequencies of at most K elements in the map at any given time.
+
+import java.util.*;
+
+public class SlidingWindowProblems {
+    // Function to count distinct elements in every window of size K
+    static List<Integer> countDistinctElementsInEveryWindowOfSize_K(int[] arr, int k) {
+        if (k > arr.length) {
+            return new ArrayList<>(); // If window size > array length, no windows are possible
+        }
+
+        Map<Integer, Integer> freq = new HashMap<>();
+        List<Integer> countDistinct = new ArrayList<>();
+        int left = 0, right = 0;
+
+        // Initialize first window
+        while (right < k) {
+            freq.put(arr[right], freq.getOrDefault(arr[right], 0) + 1);
+            right++;
+        }
+        countDistinct.add(freq.size());
+
+        // Slide the window across the array
+        while (right < arr.length) {
+            // Add the new right element
+            freq.put(arr[right], freq.getOrDefault(arr[right], 0) + 1);
+
+            // Remove the leftmost element from the window
+            freq.put(arr[left], freq.get(arr[left]) - 1);
+            if (freq.get(arr[left]) == 0) freq.remove(arr[left]);
+            left++;
+
+            // Add the count of distinct elements for this window
+            countDistinct.add(freq.size());
+            right++;
+        }
+
+        return countDistinct;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {1, 2, 1, 3, 4, 2, 3};
+        int k1 = 4;
+        System.out.println("Distinct elements in every window of size " + k1 + ": " 
+                            + countDistinctElementsInEveryWindowOfSize_K(arr1, k1)); // Expected: [3, 4, 4, 3]
+
+        int[] arr2 = {1, 1, 1, 1};
+        int k2 = 2;
+        System.out.println("Distinct elements in every window of size " + k2 + ": " 
+                            + countDistinctElementsInEveryWindowOfSize_K(arr2, k2)); // Expected: [1, 1, 1]
+    }
+}
+
+/*
+ Formula & Logic:
+- Use a sliding window of size K.
+- Maintain a frequency map (HashMap) for the current window.
+- At each window:
+   ➡️ Add new right element to the map.
+   ➡️ Remove the leftmost element.
+   ➡️ Add `freq.size()` (count of keys) to result list.
+
+ Key Takeaways:
+1. The map stores element frequencies within the current window.
+2. If the frequency of an element drops to zero, remove it from the map to keep it clean.
+3. Count of distinct elements = number of keys in the map after window adjustments.
+4. Handles edge cases:
+   - All elements identical → distinct count = 1 for every window.
+   - Window size larger than array length → returns an empty list.
+   - Properly works with arrays of varying elements.
+*/
