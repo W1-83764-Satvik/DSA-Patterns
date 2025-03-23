@@ -1,0 +1,67 @@
+// Problem: Count the number of subarrays where the maximum element lies in the given range [L, R].
+// Approach: Use the difference of counts:
+//   countSubarraysWithMaxAtMost(R) - countSubarraysWithMaxAtMost(L - 1)
+//  Time Complexity: O(N) - We iterate through the array once.
+//  Space Complexity: O(1) - Only constant extra variables are used.
+
+public class SlidingWindowProblems {
+    // Function to count subarrays with max values in the given range [L, R]
+    static int numberOfSubarraysWithMaximumValuesInGivenRange(int[] arr, int L, int R) {
+        int countAtMostR = 0, countAtMostLminus1 = 0;
+        int currentR = 0, currentL = 0;
+
+        for (int num : arr) {
+            // Count subarrays with max elements at most R
+            if (num <= R) {
+                currentR++;
+                countAtMostR += currentR;
+            } else {
+                currentR = 0;
+            }
+
+            // Count subarrays with max elements at most L - 1
+            if (num < L) {
+                currentL++;
+                countAtMostLminus1 += currentL;
+            } else {
+                currentL = 0;
+            }
+        }
+
+        return countAtMostR - countAtMostLminus1;
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        int[] arr1 = {2, 1, 4, 3};
+        int L1 = 2, R1 = 3;
+        System.out.println("Number of subarrays with max in range [" + L1 + "," + R1 + "]: "
+                            + numberOfSubarraysWithMaximumValuesInGivenRange(arr1, L1, R1)); // Expected: 3
+
+        int[] arr2 = {2, 9, 2, 5, 6};
+        int L2 = 2, R2 = 8;
+        System.out.println("Number of subarrays with max in range [" + L2 + "," + R2 + "]: "
+                            + numberOfSubarraysWithMaximumValuesInGivenRange(arr2, L2, R2)); // Example output
+    }
+}
+
+/*
+ Formula & Logic:
+- Count = subarrays with max ≤ R - subarrays with max < L
+- We use two running counters:
+    currentR: tracks consecutive elements ≤ R
+    currentL: tracks consecutive elements < L
+- Add these counts cumulatively:
+   - countAtMostR += currentR
+   - countAtMostLminus1 += currentL
+- Result = countAtMostR - countAtMostLminus1
+
+ Key Takeaways:
+1. This approach converts the problem into two prefix subarray count problems.
+2. Efficiently handles large arrays with O(N) complexity.
+3. Works for both small and large ranges by using the subtraction logic.
+4. Edge cases:
+   - All elements less than L → returns 0.
+   - All elements in [L, R] range → returns total count of sub-subarrays.
+5. Avoids brute force by using cumulative counting of valid subarrays.
+*/
