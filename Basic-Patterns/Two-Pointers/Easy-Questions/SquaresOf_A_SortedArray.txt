@@ -1,0 +1,30 @@
+// Problem 1: Squares of a Sorted Array
+// Given a sorted array (may contain negatives), return an array of squares sorted in non-decreasing order.
+// Time Complexity: O(N) | Space Complexity: O(N)
+
+static int[] squaresOf_A_SortedArray(int[] arr) {
+    int n = arr.length;
+    int[] result = new int[n];
+    int left = 0, right = n - 1, index = n - 1;
+
+    while (left <= right) {
+        int leftSquare = arr[left] * arr[left];
+        int rightSquare = arr[right] * arr[right];
+
+        if (leftSquare > rightSquare) {
+            result[index--] = leftSquare;
+            left++;
+        } else {
+            result[index--] = rightSquare;
+            right--;
+        }
+    }
+    return result;
+}
+
+/*
+Key Takeaways:
+- Use two pointers to compare absolute values from both ends.
+- Insert the larger square at the end of result[] and move inward.
+- Great example of reverse-filling logic using two pointers.
+*/

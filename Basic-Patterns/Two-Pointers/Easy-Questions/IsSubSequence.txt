@@ -1,0 +1,22 @@
+// Problem 2: Is Subsequence?
+// Check if string s is a subsequence of string t
+// Time Complexity: O(N) | Space Complexity: O(1)
+
+static boolean IsSubSequence(String s, String t) {
+    int indexS = 0, indexT = 0;
+
+    while (indexT < t.length() && indexS < s.length()) {
+        if (s.charAt(indexS) == t.charAt(indexT)) {
+            indexS++;
+        }
+        indexT++;
+    }
+    return indexS == s.length();
+}
+
+/*
+Key Takeaways:
+- Move through both strings using two pointers.
+- Every character in s must match in order within t (but not necessarily contiguously).
+- Simple and efficient linear solution.
+*/

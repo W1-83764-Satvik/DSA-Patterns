@@ -1,0 +1,23 @@
+// Problem 3: Remove duplicates from sorted array and return new length
+// Time Complexity: O(N) | Space Complexity: O(1)
+
+static int removeDuplicates(int[] arr) {
+    int i = 0, j = 1;
+
+    while (j < arr.length) {
+        if (arr[j] != arr[i]) {
+            i++;
+            arr[i] = arr[j];
+        }
+        j++;
+    }
+
+    return i + 1; // unique length
+}
+
+/*
+Key Takeaway:
+- Use slow and fast pointers (i, j).
+- Only copy elements when they differ (unique).
+- Works only on sorted arrays.
+*/

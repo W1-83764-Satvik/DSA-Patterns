@@ -1,0 +1,23 @@
+// Problem 2: Reverse a character array in place using two pointers
+// Time Complexity: O(N) | Space Complexity: O(1)
+
+static char[] reverseString(char[] arr) {
+    int left = 0, right = arr.length - 1;
+
+    while (left < right) {
+        char temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
+
+        left++;
+        right--;
+    }
+
+    return arr;
+}
+
+/*
+Key Takeaway:
+- Two pointers meet in the middle.
+- Swapping from both ends reverses the array in-place.
+*/

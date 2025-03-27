@@ -1,0 +1,30 @@
+// Problem: Merge Two Sorted Arrays In-Place (LeetCode-style)
+// You are given two sorted arrays nums1 and nums2, and the task is to merge nums2 into nums1.
+// nums1 has enough space (m + n) to hold both arrays.
+// Time Complexity: O(m + n) | Space Complexity: O(1) – In-place merge using two pointers.
+
+static int[] mergeTwoSortedArrays(int[] nums1, int m, int[] nums2, int n) {
+    int i = m - 1;         // Last index of actual elements in nums1
+    int j = n - 1;         // Last index of nums2
+    int k = m + n - 1;     // Fill from the end of nums1
+
+    // Start merging from the end
+    while (j >= 0) {
+        if (i >= 0 && nums1[i] > nums2[j]) {
+            nums1[k--] = nums1[i--];  // Copy larger value from nums1
+        } else {
+            nums1[k--] = nums2[j--];  // Copy from nums2
+        }
+    }
+
+    return nums1;
+}
+
+/*
+📌 Key Takeaways:
+1. Always fill from the back to avoid overwriting nums1 elements.
+2. nums1 has extra space at the end, so it can safely accommodate merged elements.
+3. Only nums2 needs to be fully merged — leftover nums1 values are already in place.
+4. If nums2 is empty (n = 0), nums1 remains unchanged.
+5. Edge-safe: Handles cases when nums1 is empty (m = 0) or nums2 has smallest values.
+*/

@@ -1,0 +1,22 @@
+// Problem 1: Check if a string is a valid palindrome (ignoring non-letters)
+// Time Complexity: O(N) | Space Complexity: O(N) (due to string cleaning)
+
+static boolean validPalindrome(String str) {
+    String temp = str.toLowerCase().replaceAll("[^a-z]", ""); // remove non-alphabets & lowercase
+    int left = 0, right = temp.length() - 1;
+
+    while (left < right) {
+        if (temp.charAt(left) != temp.charAt(right)) return false;
+        left++;
+        right--;
+    }
+
+    return true;
+}
+
+/*
+Key Takeaway:
+- Clean input string first (ignore non-alphabetical characters).
+- Use two pointers from both ends to compare.
+- Classic palindrome check pattern.
+*/
