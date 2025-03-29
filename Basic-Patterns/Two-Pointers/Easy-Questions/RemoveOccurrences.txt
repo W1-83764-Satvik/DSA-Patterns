@@ -1,0 +1,21 @@
+// Problem 4: Remove all occurrences of a given value and return the new length
+// Time Complexity: O(N) | Space Complexity: O(1)
+
+static int removeOccurrences(int[] nums, int val) {
+    int index = 0;
+
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] != val) {
+            nums[index++] = nums[i]; // keep non-matching elements
+        }
+    }
+
+    return index; // new length
+}
+
+/*
+Key Takeaways:
+- Two-pointer (read/write) technique.
+- Efficient for modifying array in-place.
+- Returns the new valid length; array contents beyond that don't matter.
+*/

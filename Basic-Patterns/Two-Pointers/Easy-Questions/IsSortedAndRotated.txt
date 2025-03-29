@@ -1,0 +1,23 @@
+// Problem 3: Check if an array is sorted and rotated
+// Time Complexity: O(N) | Space Complexity: O(1)
+
+static boolean isSortedAndRotated(int[] arr) {
+    int count = 0;
+    int n = arr.length;
+
+    for (int i = 0; i < n - 1; i++) {
+        if (arr[i] > arr[i + 1]) count++;
+    }
+
+    // Check circular condition
+    if (arr[n - 1] > arr[0]) count++;
+
+    return count <= 1;
+}
+
+/*
+Key Takeaways:
+- At most one inversion allowed in sorted & rotated array.
+- Traverse once and count drop-points (where arr[i] > arr[i+1]).
+- Also check arr[n-1] > arr[0] as it completes the loop.
+*/
