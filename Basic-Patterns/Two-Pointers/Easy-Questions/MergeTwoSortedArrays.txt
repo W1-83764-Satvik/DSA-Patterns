@@ -21,7 +21,7 @@ static int[] mergeTwoSortedArrays(int[] nums1, int m, int[] nums2, int n) {
 }
 
 /*
-📌 Key Takeaways:
+ Key Takeaways:
 1. Always fill from the back to avoid overwriting nums1 elements.
 2. nums1 has extra space at the end, so it can safely accommodate merged elements.
 3. Only nums2 needs to be fully merged — leftover nums1 values are already in place.

@@ -1,4 +1,4 @@
-// Problem 2: Reverse a character array in place using two pointers
+// Reverse a character array in place using two pointers
 // Time Complexity: O(N) | Space Complexity: O(1)
 
 static char[] reverseString(char[] arr) {

@@ -1,0 +1,31 @@
+//Sort an array of 0s, 1s, and 2s (Dutch National Flag Algorithm)
+// Time Complexity: O(N) | Space Complexity: O(1)
+
+static int[] sortAnArrayOf0s1s_and_2s(int[] arr) {
+    int left = 0, mid = 0, right = arr.length - 1;
+
+    while (mid <= right) {
+        if (arr[mid] == 0) {
+            int temp = arr[left];
+            arr[left++] = arr[mid];
+            arr[mid++] = temp;
+        } else if (arr[mid] == 1) {
+            mid++;
+        } else {
+            int temp = arr[mid];
+            arr[mid] = arr[right];
+            arr[right--] = temp;
+        }
+    }
+
+    return arr;
+}
+
+/*
+ Key Takeaways:
+- 3 pointers: left (0s), mid (current), right (2s)
+- If 0 → swap with left, ++both
+- If 1 → just mid++
+- If 2 → swap with right, --right
+*/
+

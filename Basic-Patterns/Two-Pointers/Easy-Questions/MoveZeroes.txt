@@ -1,4 +1,4 @@
-// Problem 1: Move Zeroes to the end while maintaining the relative order of non-zero elements
+//  Move Zeroes to the end while maintaining the relative order of non-zero elements
 // Time Complexity: O(N) | Space Complexity: O(1)
 
 static void moveZeroes(int[] nums) {

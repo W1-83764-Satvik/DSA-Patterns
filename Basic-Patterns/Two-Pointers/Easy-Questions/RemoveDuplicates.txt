@@ -1,4 +1,4 @@
-// Problem 3: Remove duplicates from sorted array and return new length
+//  Remove duplicates from sorted array and return new length
 // Time Complexity: O(N) | Space Complexity: O(1)
 
 static int removeDuplicates(int[] arr) {

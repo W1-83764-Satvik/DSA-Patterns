@@ -1,0 +1,28 @@
+
+// Remove consecutive duplicate characters from a string
+// Time Complexity: O(N) | Space Complexity: O(N) (for result string)
+
+static String removeConsecutiveCharacters(String str) {
+    if (str.isEmpty()) return "";
+
+    StringBuilder result = new StringBuilder();
+    result.append(str.charAt(0));
+    char prev = str.charAt(0);
+
+    for (int i = 1; i < str.length(); i++) {
+        if (str.charAt(i) != prev) {
+            result.append(str.charAt(i));
+            prev = str.charAt(i);
+        }
+    }
+
+    return result.toString();
+}
+
+/*
+ Key Takeaways:
+- Traverse and keep track of previous character.
+- Append only if current ≠ previous.
+- Avoids consecutive repetition.
+*/
+

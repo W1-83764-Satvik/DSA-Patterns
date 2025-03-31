@@ -1,4 +1,4 @@
-// Problem 2: Is Subsequence?
+// Is Subsequence?
 // Check if string s is a subsequence of string t
 // Time Complexity: O(N) | Space Complexity: O(1)
 

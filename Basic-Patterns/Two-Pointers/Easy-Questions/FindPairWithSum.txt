@@ -1,4 +1,4 @@
-// Problem 2: Find if a pair exists in sorted array with given sum
+// Find if a pair exists in sorted array with given sum
 // Time Complexity: O(N) | Space Complexity: O(1)
 
 static boolean findPairWithSum(int[] arr, int target) {

@@ -1,4 +1,4 @@
-// Problem 1: Check if a string is a valid palindrome (ignoring non-letters)
+//  Check if a string is a valid palindrome (ignoring non-letters)
 // Time Complexity: O(N) | Space Complexity: O(N) (due to string cleaning)
 
 static boolean validPalindrome(String str) {

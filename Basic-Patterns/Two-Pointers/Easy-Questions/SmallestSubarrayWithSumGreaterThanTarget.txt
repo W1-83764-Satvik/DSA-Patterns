@@ -1,0 +1,25 @@
+// Smallest subarray with sum ≥ k
+// Time Complexity: O(N) | Space Complexity: O(1)
+
+static int smallestSubarrayWithSumGreaterThanTarget(int[] arr, int k) {
+    int left = 0, sum = 0, minLen = Integer.MAX_VALUE;
+
+    for (int right = 0; right < arr.length; right++) {
+        sum += arr[right];
+
+        while (sum >= k) {
+            minLen = Math.min(minLen, right - left + 1);
+            sum -= arr[left++];
+        }
+    }
+
+    return (minLen == Integer.MAX_VALUE) ? 0 : minLen;
+}
+
+/*
+ Key Takeaways:
+- Sliding window pattern.
+- Expand window until sum ≥ k.
+- Then shrink from left while still valid to find minimum length.
+- Return 0 if no valid subarray found.
+*/

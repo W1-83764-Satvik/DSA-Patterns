@@ -1,4 +1,4 @@
-// Problem 3: Check if an array is sorted and rotated
+// Check if an array is sorted and rotated
 // Time Complexity: O(N) | Space Complexity: O(1)
 
 static boolean isSortedAndRotated(int[] arr) {

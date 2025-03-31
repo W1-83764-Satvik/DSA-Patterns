@@ -1,4 +1,4 @@
-// Problem 4: Remove all occurrences of a given value and return the new length
+// Remove all occurrences of a given value and return the new length
 // Time Complexity: O(N) | Space Complexity: O(1)
 
 static int removeOccurrences(int[] nums, int val) {
