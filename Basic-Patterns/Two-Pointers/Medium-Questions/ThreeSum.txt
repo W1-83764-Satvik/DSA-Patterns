@@ -1,0 +1,69 @@
+// Problem:
+// Given an integer array nums, return all the unique triplets [nums[i], nums[j], nums[k]]
+// such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+// Time Complexity: O(n^2) — due to nested loop and two pointers
+// Space Complexity: O(1) — ignoring output list
+
+import java.util.*;
+
+public class ThreeSumSolution {
+
+    public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums); // Step 1: Sort the array
+
+        for (int i = 0; i < nums.length - 2; i++) {
+
+            // Skip duplicate values for 'i' to avoid repeating triplets
+            if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+                    // Valid triplet found
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+
+                    // Skip duplicate values for 'left'
+                    while (left < right && nums[left] == nums[left + 1]) left++;
+
+                    // Skip duplicate values for 'right'
+                    while (left < right && nums[right] == nums[right - 1]) right--;
+
+                    // Move both pointers inward
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    // Sum is too small; move left pointer to get a larger sum
+                    left++;
+                } else {
+                    // Sum is too big; move right pointer to get a smaller sum
+                    right--;
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {-1, 0, 1, 2, -1, -4};
+        System.out.println(threeSum(nums));
+        // Expected Output: [[-1, -1, 2], [-1, 0, 1]]
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Sort the array first to easily handle duplicates and use two pointers efficiently.
+2. Use a fixed pointer 'i', and apply two-pointer search between (i+1) and end.
+3. Skip duplicate values for both 'i', 'left', and 'right' to avoid duplicate triplets.
+4. Move 'left' or 'right' based on the comparison of current sum with 0.
+5. Time complexity is O(n^2), which is optimal for this problem.
+6. Works well because the sorted array allows avoiding unnecessary combinations.
+7. Avoids extra space like sets/maps by smart skipping of duplicates.
+*/

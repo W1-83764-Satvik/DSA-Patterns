@@ -1,0 +1,56 @@
+// Problem:
+// Given n non-negative integers where each represents a vertical line on the x-axis,
+// find two lines that together with the x-axis forms a container such that it holds the most water.
+// Return the maximum amount of water a container can store.
+
+// Time Complexity: O(n) — single pass using two pointers
+// Space Complexity: O(1)
+
+public class ContainerWithMostWater {
+
+    public static int containerWithMostWater(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        int maxContainer = 0;
+
+        while (left < right) {
+            // Height is determined by the shorter line
+            int height = Math.min(nums[left], nums[right]);
+
+            // Width is the distance between lines
+            int width = right - left;
+
+            // Calculate area (container size)
+            int area = height * width;
+
+            // Update max area if current is greater
+            maxContainer = Math.max(maxContainer, area);
+
+            // Move the shorter line inward to find a potentially larger area
+            if (nums[left] < nums[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxContainer;
+    }
+
+    public static void main(String[] args) {
+        int[] heights = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+        System.out.println("Max water container: " + containerWithMostWater(heights));
+        // Expected Output: 49
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use two pointers from both ends to maximize width while looking for tallest lines.
+2. Area = min(height[left], height[right]) * (right - left)
+3. Always move the pointer pointing to the shorter line:
+   - Moving taller one won’t increase area because height stays limited by the shorter one.
+4. Update max area as you move pointers inward.
+5. This is the optimal O(n) approach for this problem — no need for nested loops.
+6. Works because even if you reduce width, you can gain more height — hence the trade-off.
+7. Best case happens when balance between height and width is found.
+*/
