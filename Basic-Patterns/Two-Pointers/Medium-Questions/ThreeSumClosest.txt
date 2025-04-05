@@ -1,0 +1,61 @@
+// Problem:
+// Given an integer array nums of length n and an integer target,
+// find three integers in nums such that the sum is closest to target.
+// Return the sum of the three integers. You may assume that each input has exactly one solution.
+
+// Time Complexity: O(n^2)
+// Space Complexity: O(1)
+
+import java.util.Arrays;
+
+public class ThreeSumClosestSolution {
+
+    public static int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums); // Sorting helps with two-pointer strategy
+        int closestSum = nums[0] + nums[1] + nums[2]; // Initial guess
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int currentSum = nums[i] + nums[left] + nums[right];
+
+                // Update closest sum if this one is closer to target
+                if (Math.abs(target - currentSum) < Math.abs(target - closestSum)) {
+                    closestSum = currentSum;
+                }
+
+                // Adjust pointers based on comparison with target
+                if (currentSum < target) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return closestSum;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {-1, 2, 1, -4};
+        int target = 1;
+
+        int result = threeSumClosest(nums, target);
+        System.out.println("3Sum Closest to target: " + result);
+        // Expected Output: 2 (because -1 + 2 + 1 = 2 is closest to 1)
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Sort the array to enable efficient two-pointer traversal.
+2. Fix one element and use two pointers (left and right) to explore other two elements.
+3. Track the closest sum by comparing absolute differences with the target.
+4. If current sum < target, move left pointer to increase sum.
+5. If current sum > target, move right pointer to decrease sum.
+6. Only update the closest sum when a better candidate is found.
+7. Time complexity is O(n^2), which is acceptable for this size of input.
+8. This variation doesn’t need to handle duplicates since we return just the closest sum, not combinations.
+*/

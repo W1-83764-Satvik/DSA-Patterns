@@ -1,0 +1,49 @@
+// Problem:
+// Given a sorted integer array, modify it in-place such that each element appears at most twice.
+// Return the new length of the modified array.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1) — in-place modification
+
+public class RemoveDuplicatesAtMostTwice {
+
+    public static int removeDuplicatesFromSortedArray(int[] nums) {
+        if (nums.length <= 2) return nums.length;
+
+        int j = 2; // write pointer starts from index 2
+
+        for (int i = 2; i < nums.length; i++) {
+            // Compare current with the element at j - 2
+            if (nums[i] != nums[j - 2]) {
+                nums[j] = nums[i];
+                j++;
+            }
+        }
+
+        return j; // new length of the valid array
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 1, 1, 2, 2, 3};
+        int len = removeDuplicatesFromSortedArray(nums);
+
+        System.out.print("Modified Array (max 2 duplicates): ");
+        for (int i = 0; i < len; i++) {
+            System.out.print(nums[i] + " ");
+        }
+        // Expected Output: 1 1 2 2 3
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. This problem allows up to 2 occurrences of the same number in a sorted array.
+2. Use a write pointer (j) starting from index 2.
+3. Check if the current value is equal to the value at j - 2:
+   - If not equal, copy it to j and increment j.
+   - If equal, skip it (it's a third+ duplicate).
+4. Only keep the first two instances of any number.
+5. Array is modified in-place using O(1) space.
+6. Time complexity is O(n), linear pass over the array.
+7. This pattern is useful in memory-constrained environments where duplicate filtering is needed.
+*/

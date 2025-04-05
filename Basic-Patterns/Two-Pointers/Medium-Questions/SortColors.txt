@@ -1,0 +1,60 @@
+// Problem:
+// Given an array with only 0s, 1s, and 2s, sort the array in-place in a single pass.
+// This is also known as the Dutch National Flag problem.
+
+// Time Complexity: O(n) — Single pass
+// Space Complexity: O(1) — Constant space, in-place sorting
+
+public class SortColorsDNF {
+
+    public static int[] sortColors(int[] nums) {
+        int low = 0, mid = 0, high = nums.length - 1;
+
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                // Swap nums[low] and nums[mid]
+                int temp = nums[low];
+                nums[low] = nums[mid];
+                nums[mid] = temp;
+                low++;
+                mid++;
+            } else if (nums[mid] == 1) {
+                mid++;
+            } else { // nums[mid] == 2
+                // Swap nums[mid] and nums[high]
+                int temp = nums[mid];
+                nums[mid] = nums[high];
+                nums[high] = temp;
+                high--;
+                // Do not increment mid because swapped value needs to be checked
+            }
+        }
+
+        return nums;
+    }
+
+    public static void main(String[] args) {
+        int[] input = {2, 0, 2, 1, 1, 0};
+        int[] result = sortColors(input);
+
+        System.out.print("Sorted Colors: ");
+        for (int num : result) {
+            System.out.print(num + " ");
+        }
+        // Expected Output: 0 0 1 1 2 2
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use three pointers: 
+   - low (tracks boundary of 0s)
+   - mid (scans the array)
+   - high (tracks boundary of 2s)
+2. Traverse the array once using 'mid' as the main pointer.
+3. If nums[mid] == 0, swap with nums[low] and move both pointers forward.
+4. If nums[mid] == 1, it’s already in the middle, so just move mid forward.
+5. If nums[mid] == 2, swap with nums[high] and decrement high (don't move mid).
+6. This is a classic in-place sorting pattern used in real-time streaming or low-memory scenarios.
+7. Single-pass + constant space makes this algorithm highly efficient.
+*/

@@ -1,0 +1,54 @@
+// Problem:
+// Given an array of integers and an integer k,
+// return the number of subarrays that contain exactly k odd numbers.
+// This is known as the "Nice Subarray" problem.
+
+// Time Complexity: O(n)
+// Space Complexity: O(n) — for HashMap storage
+
+import java.util.*;
+
+public class NiceSubarrayCounter {
+
+    public static int countNumberOfNiceSubarrays(int[] nums, int k) {
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        freqMap.put(0, 1); // Base case: 0 odd numbers seen so far
+
+        int currentOddCount = 0;
+        int totalNiceSubarrays = 0;
+
+        for (int num : nums) {
+            if (num % 2 != 0) {
+                currentOddCount++;
+            }
+
+            // If we've seen (currentOddCount - k) before, we can form a valid subarray
+            totalNiceSubarrays += freqMap.getOrDefault(currentOddCount - k, 0);
+
+            // Update frequency map
+            freqMap.put(currentOddCount, freqMap.getOrDefault(currentOddCount, 0) + 1);
+        }
+
+        return totalNiceSubarrays;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 1, 2, 1, 1};
+        int k = 3;
+
+        int result = countNumberOfNiceSubarrays(nums, k);
+        System.out.println("Number of nice subarrays with exactly " + k + " odd numbers: " + result);
+        // Expected Output: 2
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Treat the problem as finding subarrays where the count of odd numbers equals exactly k.
+2. Use a prefix sum technique to count how many odd numbers have been seen so far.
+3. Store frequencies of odd counts in a HashMap.
+4. If (currentOddCount - k) is found in the map, it means there's a subarray ending at this index with exactly k odds.
+5. The map starts with (0, 1) to handle the case where a subarray from the beginning has exactly k odds.
+6. Time complexity is linear: O(n), which is highly efficient for this kind of problem.
+7. Works for all integers, and avoids brute-force checking of subarrays.
+*/

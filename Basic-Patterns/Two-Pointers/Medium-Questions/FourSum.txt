@@ -1,0 +1,73 @@
+// Problem:
+// Given an array of integers 'nums' and an integer 'target',
+// return all unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:
+// a, b, c, and d are distinct indices, and nums[a] + nums[b] + nums[c] + nums[d] == target.
+
+// Time Complexity: O(n^3)
+// Space Complexity: O(1) (excluding result list)
+
+import java.util.*;
+
+public class FourSumSolution {
+
+    public static List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums); // Sorting is required for two-pointer technique
+
+        for (int i = 0; i < nums.length - 3; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // Skip duplicate i
+
+            for (int j = i + 1; j < nums.length - 2; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) continue; // Skip duplicate j
+
+                int left = j + 1;
+                int right = nums.length - 1;
+
+                while (left < right) {
+                    // Cast to long to prevent integer overflow
+                    long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];
+
+                    if (sum == target) {
+                        result.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
+
+                        // Skip duplicates
+                        while (left < right && nums[left] == nums[left + 1]) left++;
+                        while (left < right && nums[right] == nums[right - 1]) right--;
+
+                        left++;
+                        right--;
+                    } else if (sum < target) {
+                        left++;
+                    } else {
+                        right--;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 0, -1, 0, -2, 2};
+        int target = 0;
+
+        List<List<Integer>> result = fourSum(nums, target);
+        System.out.println("Quadruplets with target sum:");
+        for (List<Integer> quad : result) {
+            System.out.println(quad);
+        }
+        // Expected Output: [[-2, -1, 1, 2], [-2, 0, 0, 2], [-1, 0, 0, 1]]
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Sort the array first to simplify duplicate handling and enable two-pointer strategy.
+2. Use two nested loops (i and j) to fix the first two elements.
+3. For each pair (i, j), apply the classic two-pointer search between (j+1) and end of array.
+4. Skip duplicates for i, j, left, and right to avoid repeating quadruplets.
+5. Always cast to long when calculating sum to prevent integer overflow on large inputs.
+6. Time complexity is O(n^3), but acceptable for reasonable input sizes.
+7. This technique is extendable to k-Sum problems using recursion or layered loops.
+*/

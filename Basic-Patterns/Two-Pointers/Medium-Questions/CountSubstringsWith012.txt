@@ -1,0 +1,50 @@
+// Problem:
+// Given a string s containing only characters '0', '1', and '2',
+// return the number of substrings that contain at least one '0', one '1', and one '2'.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1) — Fixed-size frequency array
+
+public class CountSubstrings012 {
+
+    public static int countSubstringsWith012(String s) {
+        int count = 0;
+        int[] freq = new int[3]; // To count frequency of '0', '1', and '2'
+        int left = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            freq[s.charAt(right) - '0']++;
+
+            // Shrink window while all 3 characters are present
+            while (freq[0] > 0 && freq[1] > 0 && freq[2] > 0) {
+                // Count all substrings starting from current left to end
+                count += s.length() - right;
+
+                // Shrink from left
+                freq[s.charAt(left) - '0']--;
+                left++;
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        String input = "102012";
+        int result = countSubstringsWith012(input);
+        System.out.println("Count of substrings containing 0, 1, and 2: " + result);
+        // Expected Output: 9
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use a sliding window approach with two pointers: left and right.
+2. Maintain a frequency array for '0', '1', and '2' as you expand the window.
+3. Once all three digits are present in the window, count all substrings from left to end.
+4. Why s.length() - right? Because all those substrings will have '0', '1', and '2'.
+5. Shrink the window from the left to check for other valid substrings.
+6. This is a classic example of variable-size sliding window + counting technique.
+7. Time complexity is O(n), since each pointer moves at most n times.
+8. Works best for problems where the goal is to count substrings with some specific condition met.
+*/
