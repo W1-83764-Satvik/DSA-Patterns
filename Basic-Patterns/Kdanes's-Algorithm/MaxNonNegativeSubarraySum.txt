@@ -1,0 +1,35 @@
+// Problem:
+// Find the maximum sum of a contiguous subarray where all elements are non-negative.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+public class MaxNonNegativeSubarraySum {
+
+    public static int maxNonNegativeSubarraySum(int[] nums) {
+        int sum = 0, maxSum = -1;
+
+        for (int num : nums) {
+            if (num >= 0) {
+                sum += num;
+                maxSum = Math.max(maxSum, sum);
+            } else {
+                sum = 0;
+            }
+        }
+
+        return maxSum;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2, -3, 4, 5, -2, 6};
+        System.out.println("Max sum of non-negative subarray: " + maxNonNegativeSubarraySum(nums)); // Expected: 9
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Reset sum whenever a negative number is encountered.
+2. Track max sum only among non-negative contiguous segments.
+3. Works well for segmented positive streaks.
+*/

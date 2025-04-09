@@ -1,0 +1,35 @@
+// Problem:
+// Same as `minSubArrayLen`. Return the length of smallest subarray whose sum ≥ target.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+public class MinSubarrayLengthAlt {
+
+    public static int minSubArrayLenReverseKadane(int target, int[] nums) {
+        int left = 0, sum = 0, minLen = Integer.MAX_VALUE;
+
+        for (int right = 0; right < nums.length; right++) {
+            sum += nums[right];
+            while (sum >= target) {
+                minLen = Math.min(minLen, right - left + 1);
+                sum -= nums[left++];
+            }
+        }
+
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 4, 4};
+        int target = 4;
+        System.out.println("Minimum subarray length: " + minSubArrayLenReverseKadane(target, nums)); // Expected: 1
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. This is a duplicate of the minSubArrayLen pattern.
+2. Sliding window approach, shrink window when sum ≥ target.
+3. Efficient for problems asking for minimal subarray length.
+*/

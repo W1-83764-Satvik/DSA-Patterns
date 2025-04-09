@@ -1,0 +1,43 @@
+// Problem:
+// Given an array with only 0s, 1s, and 2s, sort it in-place using one pass and constant space.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+public class SortColors {
+
+    public static void sortColors(int[] nums) {
+        int low = 0, mid = 0, high = nums.length - 1;
+
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                swap(nums, low++, mid++);
+            } else if (nums[mid] == 1) {
+                mid++;
+            } else {
+                swap(nums, mid, high--);
+            }
+        }
+    }
+
+    private static void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {2, 0, 2, 1, 1, 0};
+        sortColors(nums);
+        for (int num : nums) {
+            System.out.print(num + " "); // Expected: 0 0 1 1 2 2
+        }
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Dutch National Flag algorithm: use three pointers (low, mid, high).
+2. Swap based on value and update pointers accordingly.
+3. Sorts 0s, 1s, and 2s in one pass with no extra space.
+*/

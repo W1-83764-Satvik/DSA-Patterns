@@ -1,0 +1,44 @@
+// Problem:
+// Find the maximum sum of a subarray with size at least k.
+
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+
+public class MaxSubarrayWithMinSizeK {
+
+    public static int maxSubarraySumAtLeastK(int[] nums, int k) {
+        int n = nums.length;
+        int[] maxEndingHere = new int[n];
+        maxEndingHere[0] = nums[0];
+
+        for (int i = 1; i < n; i++) {
+            maxEndingHere[i] = Math.max(nums[i], maxEndingHere[i - 1] + nums[i]);
+        }
+
+        int windowSum = 0;
+        for (int i = 0; i < k; i++) windowSum += nums[i];
+
+        int maxSum = windowSum;
+
+        for (int i = k; i < n; i++) {
+            windowSum += nums[i] - nums[i - k];
+            maxSum = Math.max(maxSum, Math.max(windowSum, windowSum + maxEndingHere[i - k]));
+        }
+
+        return maxSum;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 1, 1, 1, 1, 100};
+        int k = 2;
+        System.out.println("Max subarray sum with at least k elements: " + maxSubarraySumAtLeastK(nums, k));
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Precompute max sum ending at each index using Kadane's logic.
+2. Use sliding window of size k to calculate window sum.
+3. Use maxEndingHere[i-k] to extend beyond k if profitable.
+4. Hybrid of Kadane + sliding window.
+*/

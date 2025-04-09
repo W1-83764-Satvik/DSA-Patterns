@@ -1,0 +1,53 @@
+// Problem:
+// Return the actual subarray with the maximum sum where all elements are non-negative.
+// If tie in sum, return the longer subarray.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1) (excluding output array)
+
+public class MaxNonNegativeSubarray {
+
+    public static int[] maxNonNegativeSubarray(int[] nums) {
+        int maxSum = -1, sum = 0;
+        int start = 0, end = 0;
+        int bestStart = -1, bestEnd = -1;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] >= 0) {
+                sum += nums[i];
+                end = i;
+                if (sum > maxSum || (sum == maxSum && (end - start > bestEnd - bestStart))) {
+                    maxSum = sum;
+                    bestStart = start;
+                    bestEnd = end;
+                }
+            } else {
+                sum = 0;
+                start = i + 1;
+            }
+        }
+
+        if (bestStart == -1) return new int[0];
+
+        int[] result = new int[bestEnd - bestStart + 1];
+        for (int i = bestStart; i <= bestEnd; i++) {
+            result[i - bestStart] = nums[i];
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 5, -7, 2, 3};
+        int[] result = maxNonNegativeSubarray(nums);
+        System.out.print("Max non-negative subarray: ");
+        for (int val : result) System.out.print(val + " "); // Expected: 1 2 5
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Maintain start and end pointers for current and best segment.
+2. Prefer longer subarrays if sums are equal.
+3. Reset on negative number; update best window on tie-breaking conditions.
+*/
