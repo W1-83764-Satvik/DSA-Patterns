@@ -1,0 +1,37 @@
+// Problem:
+// Given a sorted array and a target value, return the index if the target is found.
+// If not, return the index where it would be if inserted in order.
+
+// Time Complexity: O(log n)
+// Space Complexity: O(1)
+
+public class SearchInsertPosition {
+
+    public static int searchInsertPosition(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (nums[mid] == target) return mid;
+            else if (nums[mid] < target) left = mid + 1;
+            else right = mid - 1;
+        }
+
+        return left; // ← insertion point
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 3, 5, 6};
+        int target = 2;
+        System.out.println("Insert Position: " + searchInsertPosition(nums, target)); // Expected: 1
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use binary search structure to locate target.
+2. If target not found, return `left` which represents the insert position.
+3. Useful for lower_bound type logic.
+4. Time complexity is O(log n).
+*/

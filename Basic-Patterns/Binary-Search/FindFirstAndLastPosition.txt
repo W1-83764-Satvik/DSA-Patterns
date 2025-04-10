@@ -1,0 +1,50 @@
+// Problem:
+// Given a sorted array, find the first and last position of a given target value.
+// If the target is not found, return [-1, -1].
+
+// Time Complexity: O(log n)
+// Space Complexity: O(1)
+
+public class FindFirstAndLastPosition {
+
+    public static int[] findFirstAndLastPositionOfElementInSortedArray(int[] nums, int target) {
+        int first = findBound(nums, target, true);
+        if (first == -1) return new int[]{-1, -1};
+        int last = findBound(nums, target, false);
+        return new int[]{first, last};
+    }
+
+    private static int findBound(int[] nums, int target, boolean isFirst) {
+        int left = 0, right = nums.length - 1, result = -1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (nums[mid] == target) {
+                result = mid;
+                if (isFirst) right = mid - 1;
+                else left = mid + 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {5, 7, 7, 8, 8, 10};
+        int target = 8;
+        int[] result = findFirstAndLastPositionOfElementInSortedArray(nums, target);
+        System.out.println("Range: [" + result[0] + ", " + result[1] + "]"); // Expected: [3, 4]
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use binary search to find first and last occurrence separately.
+2. Adjust bounds based on isFirst flag.
+3. Efficient O(log n) solution using modified binary search.
+*/
