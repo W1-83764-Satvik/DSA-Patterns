@@ -1,0 +1,40 @@
+// Problem:
+// Find a peak element in an array. A peak element is greater than its neighbors.
+// You may assume that nums[-1] = nums[n] = -∞.
+
+// Time Complexity: O(log n)
+// Space Complexity: O(1)
+
+public class FindPeakElement {
+
+    public static int findPeakElement(int[] nums) {
+        int left = 0, right = nums.length - 1;
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+
+            if (nums[mid] > nums[mid + 1]) {
+                // Descending → potential peak to the left
+                right = mid;
+            } else {
+                // Ascending → peak must be to the right
+                left = mid + 1;
+            }
+        }
+
+        return left;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 3, 1};
+        System.out.println("Peak Element Index: " + findPeakElement(nums)); // Expected: 2
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use binary search logic: compare mid with mid + 1.
+2. If descending → move left; if ascending → move right.
+3. Eventually, left == right at peak index.
+4. Time complexity: O(log n) even though array is unsorted.
+*/
