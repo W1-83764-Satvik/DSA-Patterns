@@ -1,0 +1,51 @@
+// Problem:
+// Find the maximum sum of a circular subarray. The subarray may wrap around the end of the array.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+public class CircularMaxSubarray {
+
+    public static int maxSubarraySumCircular(int[] nums) {
+        int totalSum = 0;
+        int maxKadane = Integer.MIN_VALUE;
+        int currentMax = 0;
+        int minKadane = Integer.MAX_VALUE;
+        int currentMin = 0;
+
+        for (int num : nums) {
+            // for max subarray (normal kadane)
+            currentMax = Math.max(num, currentMax + num);
+            maxKadane = Math.max(maxKadane, currentMax);
+
+            // for min subarray (to calculate circular wrap)
+            currentMin = Math.min(num, currentMin + num);
+            minKadane = Math.min(minKadane, currentMin);
+
+            // total array sum
+            totalSum += num;
+        }
+
+        // If all numbers are negative, maxKadane == max number
+        if (totalSum == minKadane) {
+            return maxKadane;
+        }
+
+        // max between normal and circular case
+        return Math.max(maxKadane, totalSum - minKadane);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {5, -3, 5};
+        System.out.println("Max Circular Subarray Sum = " + maxSubarraySumCircular(arr)); // Output: 10
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use standard Kadane’s algorithm to find the max subarray.
+2. Use modified Kadane to find min subarray (to remove the min part for circular gain).
+3. The circular case is: totalSum - minKadane.
+4. Handle all-negative edge case: return maxKadane directly if totalSum == minKadane.
+5. Time: O(n), Space: O(1), single pass through the array.
+*/
