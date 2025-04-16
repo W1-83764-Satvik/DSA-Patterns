@@ -1,0 +1,48 @@
+// Problem:
+// Reverse a singly linked list completely.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+public class ReverseLinkedList {
+
+    static class Node {
+        int val;
+        Node next;
+        Node(int val) {
+            this.val = val;
+        }
+    }
+
+    static Node reverse(Node head) {
+        Node prev = null;
+        while (head != null) {
+            Node next = head.next;
+            head.next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
+    }
+
+    public static void main(String[] args) {
+        Node head = new Node(1);
+        head.next = new Node(2);
+        head.next.next = new Node(3);
+
+        Node reversed = reverse(head);
+        while (reversed != null) {
+            System.out.print(reversed.val + " ");
+            reversed = reversed.next;
+        }
+        // Expected Output: 3 2 1
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use iteration with prev, curr, and next pointers.
+2. Reverse by re-pointing curr.next to prev.
+3. Move all pointers forward one step at a time.
+4. O(n) time and O(1) space.
+*/

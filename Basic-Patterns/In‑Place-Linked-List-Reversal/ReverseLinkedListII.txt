@@ -1,0 +1,63 @@
+// Problem:
+// Reverse a sublist from position m to n in a singly linked list.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+public class ReverseLinkedListII {
+
+    static class Node {
+        int val;
+        Node next;
+        Node(int val) {
+            this.val = val;
+        }
+    }
+
+    static Node reverseBetween(Node head, int m, int n) {
+        if (head == null || m == n) return head;
+
+        Node dummy = new Node(0);
+        dummy.next = head;
+        Node prev = dummy;
+
+        for (int i = 1; i < m; i++) {
+            prev = prev.next;
+        }
+
+        Node curr = prev.next;
+        Node next = null;
+
+        for (int i = 0; i < n - m; i++) {
+            next = curr.next;
+            curr.next = next.next;
+            next.next = prev.next;
+            prev.next = next;
+        }
+
+        return dummy.next;
+    }
+
+    public static void main(String[] args) {
+        Node head = new Node(1);
+        head.next = new Node(2);
+        head.next.next = new Node(3);
+        head.next.next.next = new Node(4);
+        head.next.next.next.next = new Node(5);
+
+        Node result = reverseBetween(head, 2, 4);
+        while (result != null) {
+            System.out.print(result.val + " ");
+            result = result.next;
+        }
+        // Expected Output: 1 4 3 2 5
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use dummy node to simplify edge cases (when m == 1).
+2. Iteratively move the nodes in the sublist to the front.
+3. Time-efficient one-pass in-place solution.
+4. O(n) time and constant space.
+*/
