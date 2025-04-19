@@ -1,0 +1,38 @@
+// Problem:
+// Given an array of points where points[i] = [xstart, xend] representing a balloon's horizontal diameter,
+// return the minimum number of arrows that must be shot to burst all balloons.
+// An arrow can be shot vertically along x coordinate and can burst all balloons whose intervals it intersects.
+
+// Time Complexity: O(n log n)
+// Space Complexity: O(1)
+
+import java.util.Arrays;
+
+public class MinimumNumberOfArrowsToBurstBalloons {
+
+    public static int findMinArrowShots(int[][] points) {
+        if (points.length == 0) return 0;
+        Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));
+        int arrows = 1, prevEnd = points[0][1];
+        for (int i = 1; i < points.length; i++) {
+            if (points[i][0] > prevEnd) {
+                arrows++;
+                prevEnd = points[i][1];
+            }
+        }
+        return arrows;
+    }
+
+    public static void main(String[] args) {
+        int[][] points = {{10,16},{2,8},{1,6},{7,12}};
+        System.out.println("Min arrows: " + findMinArrowShots(points)); // Expected: 2
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Sort balloons by their end coordinate.
+2. Shoot an arrow at the end of the first balloon’s interval.
+3. For each subsequent balloon, if its start is beyond the last arrow shot, shoot a new arrow.
+4. Time: O(n log n) for sort. Space: O(1).
+*/
