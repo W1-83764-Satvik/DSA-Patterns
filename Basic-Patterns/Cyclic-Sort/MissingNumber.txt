@@ -1,0 +1,41 @@
+// Problem:
+// Given an array nums containing n distinct numbers in the range [0, n],
+// return the only number in the range that is missing from the array.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+// Pattern: Cyclic Sort
+
+public class MissingNumber {
+
+    public static int missingNumber(int[] nums) {
+        int i = 0;
+        int n = nums.length;
+        while (i < n) {
+            if (nums[i] < n && nums[i] != nums[nums[i]]) {
+                int tmp = nums[i];
+                nums[i] = nums[tmp];
+                nums[tmp] = tmp;
+            } else {
+                i++;
+            }
+        }
+        for (int j = 0; j < n; j++) {
+            if (nums[j] != j) return j;
+        }
+        return n;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {3, 0, 1};
+        System.out.println("Missing number: " + missingNumber(nums)); // Expected: 2
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use cyclic sort to place each number at its index: while nums[i] < n and nums[i] != nums[nums[i]].
+2. After sorting, the first index j where nums[j] != j is the missing number.
+3. If all indices match, the missing number is n.
+4. Runs in O(n) time with O(1) extra space.
+*/
