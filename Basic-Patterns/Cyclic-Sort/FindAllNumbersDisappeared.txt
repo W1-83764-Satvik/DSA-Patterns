@@ -1,0 +1,42 @@
+// Problem:
+// Given an array of integers where 1 ≤ a[i] ≤ n (n = size of array),
+// some elements appear twice and others appear once.
+// Find all the elements of [1, n] that do not appear in this array.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1) ignoring output
+
+import java.util.*;
+
+public class FindAllNumbersDisappeared {
+
+    public static List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> result = new ArrayList<>();
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            int idx = Math.abs(nums[i]) - 1;
+            if (nums[idx] > 0) {
+                nums[idx] = -nums[idx];
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (nums[i] > 0) {
+                result.add(i + 1);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {4,3,2,7,8,2,3,1};
+        System.out.println("Disappeared: " + findDisappearedNumbers(nums)); // Expected: [5,6]
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use index marking by negating nums[abs(num)-1].
+2. Positive entries at the end indicate missing numbers.
+3. Restore array if needed by taking absolute values.
+4. O(n) time, constant extra space.
+*/

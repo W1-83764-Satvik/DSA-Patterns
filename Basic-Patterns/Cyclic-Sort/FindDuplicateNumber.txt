@@ -1,0 +1,43 @@
+// Problem:
+// Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n],
+// there is only one repeated number. Find the duplicate without modifying the array
+// and using only constant extra space.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+public class FindDuplicateNumber {
+
+    public static int findDuplicate(int[] nums) {
+        int slow = nums[0];
+        int fast = nums[0];
+
+        // Phase 1: Find intersection point in cycle
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+
+        // Phase 2: Find the entrance to the cycle (duplicate number)
+        slow = nums[0];
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+
+        return slow;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1, 3, 4, 2, 2};
+        System.out.println("Duplicate number: " + findDuplicate(nums)); // Expected: 2
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Model the array as a linked list where index points to value.
+2. Use Floyd’s cycle detection to find the duplicate (cycle entrance).
+3. Phase 1: detect intersection; Phase 2: reset one pointer to start and move both at same pace.
+4. O(n) time, O(1) space without modifying the input.
+*/

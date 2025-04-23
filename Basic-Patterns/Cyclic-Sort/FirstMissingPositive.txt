@@ -1,0 +1,43 @@
+// Problem:
+// Given an unsorted integer array nums, find the smallest missing positive integer.
+
+// Time Complexity: O(n)
+// Space Complexity: O(1) (ignoring output)
+
+// Pattern: Cyclic Sort / Index Placement
+
+public class FirstMissingPositive {
+
+    public static int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        int i = 0;
+        while (i < n) {
+            if (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {
+                int tmp = nums[nums[i] - 1];
+                nums[nums[i] - 1] = nums[i];
+                nums[i] = tmp;
+            } else {
+                i++;
+            }
+        }
+        for (int j = 0; j < n; j++) {
+            if (nums[j] != j + 1) {
+                return j + 1;
+            }
+        }
+        return n + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {3, 4, -1, 1};
+        System.out.println("First missing positive: " + firstMissingPositive(nums)); // Expected: 2
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Place each positive number x at index x-1 if possible.
+2. After placement, the first index j where nums[j] != j+1 gives the answer.
+3. Handles negatives and numbers > n by ignoring them.
+4. O(n) time, constant extra space.
+*/
