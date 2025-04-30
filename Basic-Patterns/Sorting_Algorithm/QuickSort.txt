@@ -1,0 +1,51 @@
+// Problem:
+// Implement Quick Sort to sort an array of integers in-place.
+
+// Time Complexity: Average O(n log n), Worst O(n^2)
+// Space Complexity: O(log n) recursion stack
+
+public class QuickSort {
+
+    public static void quickSort(int[] arr) {
+        if (arr == null || arr.length <= 1) return;
+        quickSortHelper(arr, 0, arr.length - 1);
+    }
+
+    private static void quickSortHelper(int[] arr, int low, int high) {
+        if (low < high) {
+            int pivotIndex = partition(arr, low, high);
+            quickSortHelper(arr, low, pivotIndex - 1);
+            quickSortHelper(arr, pivotIndex + 1, high);
+        }
+    }
+
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                int tmp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = tmp;
+            }
+        }
+        arr[high] = arr[i + 1];
+        arr[i + 1] = pivot;
+        return i + 1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3, 6, 8, 10, 1, 2, 1};
+        quickSort(arr);
+        System.out.println(java.util.Arrays.toString(arr)); // Expected: [1, 1, 2, 3, 6, 8, 10]
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Choose a pivot (e.g., last element) and partition the array in-place.
+2. Recursively sort partitions on either side of the pivot.
+3. In-place sort with average O(n log n) time and O(log n) space.
+4. Worst-case O(n^2) when pivot choices are poor.
+*/

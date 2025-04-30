@@ -1,0 +1,46 @@
+// Problem:
+// Implement Merge Sort algorithm to sort an array of integers.
+
+// Time Complexity: O(n log n)
+// Space Complexity: O(n) due to auxiliary array during merge
+
+public class MergeSort {
+
+    public static void mergeSort(int[] arr) {
+        if (arr == null || arr.length <= 1) return;
+        mergeSortHelper(arr, 0, arr.length - 1);
+    }
+
+    private static void mergeSortHelper(int[] arr, int left, int right) {
+        if (left >= right) return;
+        int mid = left + (right - left) / 2;
+        mergeSortHelper(arr, left, mid);
+        mergeSortHelper(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+
+    private static void merge(int[] arr, int left, int mid, int right) {
+        int[] temp = new int[right - left + 1];
+        int i = left, j = mid + 1, k = 0;
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) temp[k++] = arr[i++];
+            else temp[k++] = arr[j++];
+        }
+        while (i <= mid) temp[k++] = arr[i++];
+        while (j <= right) temp[k++] = arr[j++];
+        System.arraycopy(temp, 0, arr, left, temp.length);
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {5, 2, 9, 1, 5, 6};
+        mergeSort(arr);
+        System.out.println(java.util.Arrays.toString(arr)); // Expected: [1, 2, 5, 5, 6, 9]
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Divide the array recursively into halves and sort each half.
+2. Merge sorted halves using an auxiliary array.
+3. Stable sort with guaranteed O(n log n) performance.
+*/
