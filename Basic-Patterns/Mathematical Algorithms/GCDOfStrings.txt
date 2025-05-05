@@ -1,0 +1,33 @@
+// Problem:
+// Given two strings str1 and str2, return the greatest common divisor (GCD) string of str1 and str2.
+// The GCD string is the largest string that can be concatenated some number of times to make both str1 and str2.
+// LeetCode #1071
+
+// Time Complexity: O(n + m) where n and m are lengths of str1 and str2
+// Space Complexity: O(n + m) for string operations
+
+public class GCDOfStrings {
+
+    public static String gcdOfStrings(String str1, String str2) {
+        if (!(str1 + str2).equals(str2 + str1)) {
+            return "";
+        }
+        int gcdLen = gcd(str1.length(), str2.length());
+        return str1.substring(0, gcdLen);
+    }
+
+    private static int gcd(int a, int b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(gcdOfStrings("ABCABC", "ABC")); // Expected: "ABC"
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. If str1+str2 != str2+str1, no common divisor string exists.
+2. Compute gcd of lengths and return the prefix of that length.
+3. Utilizes Euclidean algorithm for gcd.
+*/

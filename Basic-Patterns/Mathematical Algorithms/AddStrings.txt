@@ -1,0 +1,36 @@
+// Problem:
+// Given two non-negative numbers num1 and num2 represented as strings,
+// return the sum as a string without using built-in big integer libraries.
+// LeetCode #415
+
+// Time Complexity: O(max(m, n))
+// Space Complexity: O(max(m, n))
+
+public class AddStrings {
+
+    public static String addStrings(String num1, String num2) {
+        StringBuilder sb = new StringBuilder();
+        int i = num1.length() - 1;
+        int j = num2.length() - 1;
+        int carry = 0;
+        while (i >= 0 || j >= 0 || carry != 0) {
+            int x = i >= 0 ? num1.charAt(i--) - '0' : 0;
+            int y = j >= 0 ? num2.charAt(j--) - '0' : 0;
+            int sum = x + y + carry;
+            sb.append(sum % 10);
+            carry = sum / 10;
+        }
+        return sb.reverse().toString();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(addStrings("123", "987")); // Expected: "1110"
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Add from least significant digit using two pointers.
+2. Manage carry and append remainder.
+3. Reverse result at end.
+*/
