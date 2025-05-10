@@ -1,0 +1,60 @@
+// Problem:
+// Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+// LeetCode #155
+
+// Time Complexity: O(1) for all operations
+// Space Complexity: O(n) for stack storage
+
+import java.util.*;
+
+public class MinStack {
+
+    private Deque<Integer> stack;
+    private Deque<Integer> minStack;
+
+    public MinStack() {
+        stack = new ArrayDeque<>();
+        minStack = new ArrayDeque<>();
+    }
+
+    public void push(int x) {
+        stack.push(x);
+        if (minStack.isEmpty() || x <= minStack.peek()) {
+            minStack.push(x);
+        }
+    }
+
+    public void pop() {
+        int val = stack.pop();
+        if (val == minStack.peek()) {
+            minStack.pop();
+        }
+    }
+
+    public int top() {
+        return stack.peek();
+    }
+
+    public int getMin() {
+        return minStack.peek();
+    }
+
+    public static void main(String[] args) {
+        MinStack ms = new MinStack();
+        ms.push(-2);
+        ms.push(0);
+        ms.push(-3);
+        System.out.println(ms.getMin()); // Expected: -3
+        ms.pop();
+        System.out.println(ms.top());    // Expected: 0
+        System.out.println(ms.getMin()); // Expected: -2
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Maintain two stacks: one for normal values, one for current minima.
+2. Push to minStack when new value <= current min.
+3. Pop from minStack when popping that min value.
+4. All operations in O(1) time.
+*/

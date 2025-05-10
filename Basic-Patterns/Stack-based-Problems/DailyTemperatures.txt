@@ -1,0 +1,41 @@
+// Problem:
+// Given an array T of daily temperatures, return an array such that for each day in the input,
+// tells you how many days you would have to wait until a warmer temperature.
+// If there is no future day for which this is possible, put 0.
+// LeetCode #739
+
+// Time Complexity: O(n)
+// Space Complexity: O(n) for stack
+
+import java.util.*;
+
+public class DailyTemperatures {
+
+    public static int[] dailyTemperatures(int[] T) {
+        int n = T.length;
+        int[] answer = new int[n];
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && T[i] > T[stack.peek()]) {
+                int prev = stack.pop();
+                answer[prev] = i - prev;
+            }
+            stack.push(i);
+        }
+        return answer;
+    }
+
+    public static void main(String[] args) {
+        int[] T = {73,74,75,71,69,72,76,73};
+        System.out.println(Arrays.toString(dailyTemperatures(T)));
+        // Expected: [1,1,4,2,1,1,0,0]
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use a stack of indices to track days awaiting warmer temps.
+2. When current temperature > T[stack.peek()], resolve those indices.
+3. Push current day's index onto stack.
+4. Days without warmer future remain 0.
+*/
