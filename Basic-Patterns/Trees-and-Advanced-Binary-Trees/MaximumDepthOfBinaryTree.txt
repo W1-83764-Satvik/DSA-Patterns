@@ -1,0 +1,20 @@
+// Problem:
+// Find the maximum depth (height) of a binary tree.
+// LeetCode #104
+
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+
+public class MaximumDepthOfBinaryTree {
+
+    public int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Recursively compute left and right depths.
+2. Depth = 1 + max(childDepth).
+*/

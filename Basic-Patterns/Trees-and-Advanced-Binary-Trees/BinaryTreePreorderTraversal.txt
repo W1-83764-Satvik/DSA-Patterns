@@ -1,0 +1,30 @@
+// Problem:
+// Perform preorder traversal on a binary tree (Node → Left → Right).
+// LeetCode #144
+
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+
+import java.util.*;
+
+public class BinaryTreePreorderTraversal {
+
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        traverse(root, res);
+        return res;
+    }
+
+    private void traverse(TreeNode node, List<Integer> res) {
+        if (node == null) return;
+        res.add(node.val);
+        traverse(node.left, res);
+        traverse(node.right, res);
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Visit node first, then left subtree, then right subtree.
+2. Standard DFS recursion.
+*/

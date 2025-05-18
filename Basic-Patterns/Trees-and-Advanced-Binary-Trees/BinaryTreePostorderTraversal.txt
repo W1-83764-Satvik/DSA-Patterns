@@ -1,0 +1,30 @@
+// Problem:
+// Perform postorder traversal on a binary tree (Left → Right → Node).
+// LeetCode #145
+
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+
+import java.util.*;
+
+public class BinaryTreePostorderTraversal {
+
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        traverse(root, res);
+        return res;
+    }
+
+    private void traverse(TreeNode node, List<Integer> res) {
+        if (node == null) return;
+        traverse(node.left, res);
+        traverse(node.right, res);
+        res.add(node.val);
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Recursively process left, then right, then visit node.
+2. Useful for deleting trees or bottom-up operations.
+*/

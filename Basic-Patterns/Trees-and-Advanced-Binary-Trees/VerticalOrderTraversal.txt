@@ -1,0 +1,35 @@
+// Problem:
+// Return vertical order traversal of a binary tree.
+// LeetCode #314
+
+// Time Complexity: O(n log n) due to sorting columns
+// Space Complexity: O(n)
+
+import java.util.*;
+
+public class VerticalOrderTraversal {
+
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        if (root == null) return res;
+        Map<Integer, List<Integer>> map = new TreeMap<>();
+        Queue<Pair<TreeNode,Integer>> q = new LinkedList<>();
+        q.offer(new Pair<>(root, 0));
+        while (!q.isEmpty()) {
+            Pair<TreeNode,Integer> p = q.poll();
+            TreeNode node = p.getKey();
+            int col = p.getValue();
+            map.computeIfAbsent(col, x -> new ArrayList<>()).add(node.val);
+            if (node.left != null) q.offer(new Pair<>(node.left, col - 1));
+            if (node.right != null) q.offer(new Pair<>(node.right, col + 1));
+        }
+        res.addAll(map.values());
+        return res;
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use BFS with column indices.
+2. TreeMap to sort columns.
+*/

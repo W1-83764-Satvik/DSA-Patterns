@@ -1,0 +1,27 @@
+// Problem:
+// Flatten a binary tree to a linked list in-place (preorder sequence).
+// LeetCode #114
+
+// Time Complexity: O(n)
+// Space Complexity: O(n) recursion stack
+
+public class FlattenBinaryTreeToLinkedList {
+
+    public void flatten(TreeNode root) {
+        if (root == null) return;
+        flatten(root.right);
+        flatten(root.left);
+        root.right = prev;
+        root.left = null;
+        prev = root;
+    }
+
+    private TreeNode prev = null;
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Reverse preorder (Right → Left → Node) using recursion.
+2. Keep track of previous processed node.
+3. Set left child to null, right child to prev.
+*/

@@ -1,0 +1,30 @@
+// Problem:
+// Perform inorder traversal on a binary tree (Left → Node → Right).
+// LeetCode #94
+
+// Time Complexity: O(n)
+// Space Complexity: O(n) for recursion stack
+
+import java.util.*;
+
+public class BinaryTreeInorderTraversal {
+
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        traverse(root, res);
+        return res;
+    }
+
+    private void traverse(TreeNode node, List<Integer> res) {
+        if (node == null) return;
+        traverse(node.left, res);
+        res.add(node.val);
+        traverse(node.right, res);
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use recursion: traverse left subtree, visit node, traverse right.
+2. Time: O(n), Space: O(n) due to recursion depth.
+*/

@@ -1,0 +1,29 @@
+// Problem:
+// Compute the diameter (longest path between any two nodes) of a binary tree.
+// LeetCode #543
+
+// Time Complexity: O(n)
+// Space Complexity: O(n)
+
+public class DiameterOfBinaryTree {
+    private int maxDiameter = 0;
+
+    public int diameterOfBinaryTree(TreeNode root) {
+        depth(root);
+        return maxDiameter;
+    }
+
+    private int depth(TreeNode node) {
+        if (node == null) return 0;
+        int left = depth(node.left);
+        int right = depth(node.right);
+        maxDiameter = Math.max(maxDiameter, left + right);
+        return 1 + Math.max(left, right);
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Track max(leftDepth + rightDepth) at each node.
+2. Return depth to parent as 1 + max(left, right).
+*/
