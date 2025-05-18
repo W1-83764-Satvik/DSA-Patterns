@@ -1,0 +1,74 @@
+// Problem:
+// Design a circular queue with fixed capacity k.
+// Support enQueue, deQueue, Front, Rear, isEmpty, isFull operations.
+// LeetCode #622
+
+// Time Complexity: O(1) per operation
+// Space Complexity: O(k)
+
+public class MyCircularQueue {
+    private final int[] data;
+    private int head;
+    private int tail;
+    private int size;
+    private final int capacity;
+
+    public MyCircularQueue(int k) {
+        capacity = k;
+        data = new int[k];
+        head = 0;
+        tail = -1;
+        size = 0;
+    }
+
+    public boolean enQueue(int value) {
+        if (isFull()) return false;
+        tail = (tail + 1) % capacity;
+        data[tail] = value;
+        size++;
+        return true;
+    }
+
+    public boolean deQueue() {
+        if (isEmpty()) return false;
+        head = (head + 1) % capacity;
+        size--;
+        return true;
+    }
+
+    public int Front() {
+        return isEmpty() ? -1 : data[head];
+    }
+
+    public int Rear() {
+        return isEmpty() ? -1 : data[tail];
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public boolean isFull() {
+        return size == capacity;
+    }
+
+    public static void main(String[] args) {
+        MyCircularQueue q = new MyCircularQueue(3);
+        System.out.println(q.enQueue(1));  // true
+        System.out.println(q.enQueue(2));  // true
+        System.out.println(q.enQueue(3));  // true
+        System.out.println(q.enQueue(4));  // false
+        System.out.println(q.Rear());      // 3
+        System.out.println(q.isFull());    // true
+        System.out.println(q.deQueue());   // true
+        System.out.println(q.enQueue(4));  // true
+        System.out.println(q.Rear());      // 4
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use array, head/tail pointers, and size to manage circular behavior.
+2. Increment pointers using modulo arithmetic.
+3. All operations run in constant time.
+*/

@@ -1,0 +1,58 @@
+// Problem:
+// Given a grid of oranges (0 empty, 1 fresh, 2 rotten),
+// every minute fresh oranges adjacent to rotten ones become rotten.
+// Return the minutes until no fresh oranges remain, or -1 if impossible.
+// LeetCode #994
+
+// Time Complexity: O(m * n)
+// Space Complexity: O(m * n) for the queue
+
+import java.util.*;
+
+public class RottingOranges {
+
+    public static int orangesRotting(int[][] grid) {
+        int rows = grid.length, cols = grid[0].length;
+        Queue<int[]> queue = new LinkedList<>();
+        int fresh = 0;
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (grid[r][c] == 2) {
+                    queue.offer(new int[]{r, c});
+                } else if (grid[r][c] == 1) {
+                    fresh++;
+                }
+            }
+        }
+        int minutes = 0;
+        int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1}};
+        while (!queue.isEmpty() && fresh > 0) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] cell = queue.poll();
+                for (int[] d : dirs) {
+                    int nr = cell[0] + d[0], nc = cell[1] + d[1];
+                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 1) {
+                        grid[nr][nc] = 2;
+                        fresh--;
+                        queue.offer(new int[]{nr, nc});
+                    }
+                }
+            }
+            minutes++;
+        }
+        return fresh == 0 ? minutes : -1;
+    }
+
+    public static void main(String[] args) {
+        int[][] grid = {{2,1,1},{1,1,0},{0,1,1}};
+        System.out.println(orangesRotting(grid)); // Expected: 4
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Perform BFS from initial rotten oranges to spread rot level by level.
+2. Track fresh count; increment minutes each BFS layer.
+3. Return -1 if fresh oranges remain after BFS.
+*/

@@ -1,0 +1,44 @@
+// Problem:
+// Design a class to calculate the moving average of a stream of integers within a sliding window.
+// Custom Challenge
+
+// Time Complexity: O(1) per next() call
+// Space Complexity: O(k)
+
+import java.util.*;
+
+public class MovingAverage {
+    private final int size;
+    private final Deque<Integer> window;
+    private double sum;
+
+    public MovingAverage(int size) {
+        this.size = size;
+        this.window = new ArrayDeque<>();
+        this.sum = 0;
+    }
+
+    public double next(int val) {
+        if (window.size() == size) {
+            sum -= window.pollFirst();
+        }
+        window.offerLast(val);
+        sum += val;
+        return sum / window.size();
+    }
+
+    public static void main(String[] args) {
+        MovingAverage m = new MovingAverage(3);
+        System.out.println(m.next(1));   // 1.0
+        System.out.println(m.next(10));  // 5.5
+        System.out.println(m.next(3));   // 4.666...
+        System.out.println(m.next(5));   // 6.0
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use a deque to maintain the last k elements.
+2. Subtract oldest value when deque is full before adding new.
+3. Maintain running sum for O(1) average computation.
+*/
