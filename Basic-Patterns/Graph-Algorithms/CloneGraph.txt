@@ -1,0 +1,55 @@
+// Problem:
+// Given a reference of a node in a connected undirected graph, return a deep copy of the graph.
+// Each node contains a val and a list of neighbors.
+// LeetCode #133
+
+// Time Complexity: O(V + E)
+// Space Complexity: O(V) for map and recursion stack
+
+import java.util.*;
+
+class Node {
+    public int val;
+    public List<Node> neighbors;
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<>();
+    }
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<>();
+    }
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+
+public class CloneGraph {
+
+    private Map<Node, Node> visited = new HashMap<>();
+
+    public Node cloneGraph(Node node) {
+        if (node == null) return null;
+        if (visited.containsKey(node)) return visited.get(node);
+
+        Node clone = new Node(node.val);
+        visited.put(node, clone);
+        for (Node nei : node.neighbors) {
+            clone.neighbors.add(cloneGraph(nei));
+        }
+        return clone;
+    }
+
+    public static void main(String[] args) {
+        // Example graph creation skipped for brevity
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Use DFS with a hashmap to map original nodes to their clones.
+2. Return the clone if node is already cloned (handles cycles).
+3. Recursively clone neighbors.
+4. O(V + E) time and space.
+*/
