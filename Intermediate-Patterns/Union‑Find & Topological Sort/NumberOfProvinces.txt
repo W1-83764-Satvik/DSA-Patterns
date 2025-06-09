@@ -1,0 +1,51 @@
+// Problem:
+// There are n provinces (cities) and isConnected matrix where isConnected[i][j] = 1 indicates a direct connection.
+// A province is a group of directly or indirectly connected cities.
+// Return the number of provinces.
+// LeetCode #547
+
+// Time Complexity: O(n^2)
+// Space Complexity: O(n) for visited array and recursion stack
+
+public class NumberOfProvinces {
+
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        boolean[] visited = new boolean[n];
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                dfs(isConnected, visited, i);
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private void dfs(int[][] isConnected, boolean[] visited, int i) {
+        visited[i] = true;
+        for (int j = 0; j < isConnected.length; j++) {
+            if (isConnected[i][j] == 1 && !visited[j]) {
+                dfs(isConnected, visited, j);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        NumberOfProvinces sol = new NumberOfProvinces();
+        int[][] isConnected = {
+            {1,1,0},
+            {1,1,0},
+            {0,0,1}
+        };
+        System.out.println("Provinces: " + sol.findCircleNum(isConnected)); // Expected: 2
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Model provinces as connected components in a graph from adjacency matrix.
+2. Use DFS (or BFS) to traverse all cities in a component, marking visited.
+3. Increment count for each unvisited node start.
+4. Time: O(n^2) scanning matrix; Space: O(n) recursion.
+*/
