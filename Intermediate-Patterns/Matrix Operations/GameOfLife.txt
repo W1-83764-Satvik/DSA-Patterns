@@ -1,0 +1,40 @@
+// Problem:
+// Given a board with live (1) and dead (0) cells, compute the next state in-place.
+// LeetCode #289
+
+// Time Complexity: O(m * n)
+// Space Complexity: O(1)
+
+public class GameOfLife {
+
+    public void gameOfLife(int[][] board) {
+        int m = board.length, n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int liveNeighbors = countLiveNeighbors(board, i, j);
+                if (board[i][j] == 1 && (liveNeighbors < 2 || liveNeighbors > 3)) board[i][j] = 2;
+                if (board[i][j] == 0 && liveNeighbors == 3) board[i][j] = 3;
+            }
+        }
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                board[i][j] %= 2;
+    }
+
+    private int countLiveNeighbors(int[][] board, int i, int j) {
+        int[][] dirs = {{1,0},{-1,0},{0,1},{0,-1},{1,1},{1,-1},{-1,1},{-1,-1}};
+        int count = 0;
+        for (int[] d : dirs) {
+            int ni = i + d[0], nj = j + d[1];
+            if (ni >= 0 && ni < board.length && nj >= 0 && nj < board[0].length)
+                if (board[ni][nj] == 1 || board[ni][nj] == 2) count++;
+        }
+        return count;
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Encode future state: 2 (live->dead), 3 (dead->live).
+2. Use modulo to finalize.
+*/
