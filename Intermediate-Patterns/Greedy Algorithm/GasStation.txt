@@ -1,0 +1,38 @@
+// Problem:
+// There are n gas stations in a circle, gas[i] is the amount of gas at station i,
+// and cost[i] is the gas required to travel from station i to i+1.
+// Return the starting gas station index if you can complete the circuit, otherwise -1.
+// LeetCode #134
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+public class GasStation {
+
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int totalTank = 0, currTank = 0, start = 0;
+        for (int i = 0; i < gas.length; i++) {
+            int diff = gas[i] - cost[i];
+            totalTank += diff;
+            currTank += diff;
+            if (currTank < 0) {
+                start = i + 1;
+                currTank = 0;
+            }
+        }
+        return totalTank >= 0 ? start : -1;
+    }
+
+    public static void main(String[] args) {
+        GasStation sol = new GasStation();
+        System.out.println(sol.canCompleteCircuit(new int[]{1,2,3,4,5}, new int[]{3,4,5,1,2})); // Expected: 3
+        System.out.println(sol.canCompleteCircuit(new int[]{2,3,4}, new int[]{3,4,3})); // Expected: -1
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. totalTank tracks net gas over the entire circuit.
+2. currTank tracks current segment; if negative, reset start to next station and currTank to zero.
+3. If totalTank >= 0, a solution exists at index start; otherwise, return -1.
+*/

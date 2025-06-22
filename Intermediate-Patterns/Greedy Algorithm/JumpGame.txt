@@ -1,0 +1,33 @@
+// Problem:
+// Given an array nums where each element represents your maximum jump length at that position,
+// determine if you can reach the last index.
+// LeetCode #55
+
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+
+public class JumpGame {
+
+    public boolean canJump(int[] nums) {
+        int maxReach = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (i > maxReach) return false;
+            maxReach = Math.max(maxReach, i + nums[i]);
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        JumpGame sol = new JumpGame();
+        System.out.println(sol.canJump(new int[]{2,3,1,1,4})); // Expected: true
+        System.out.println(sol.canJump(new int[]{3,2,1,0,4})); // Expected: false
+    }
+}
+
+/*
+Key Takeaways for Fast Revision:
+1. Maintain a running max reachable index (maxReach).
+2. If current index exceeds maxReach, you cannot progress → return false.
+3. Update maxReach = max(maxReach, i + nums[i]).
+4. If loop completes, last index is reachable.
+*/
